@@ -1,5 +1,5 @@
 .carousel-wrapper {
-  max-width: 1000px; /* Much bigger */
+  max-width: 1000px; 
   margin: 40px auto;
   border-radius: 40px;
   overflow: hidden;
@@ -10,7 +10,7 @@
 
 .carousel-img {
   border-radius: 40px;
-  height: 500px; /* Much bigger */
+  height: 500px; 
   object-fit: cover;
 }
 
@@ -49,4 +49,19 @@
 
 .carousel-control-next-icon::after {
   background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='white' stroke-width='3' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path d='M10 4l12 12-12 12'/></svg>");
+}
+
+
+/* this code made the arrows fade in and out soothly when hovering over the carousel */
+.carousel-wrapper .carousel-control-prev,
+.carousel-wrapper .carousel-control-next {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.carousel-wrapper.hovered .carousel-control-prev,
+.carousel-wrapper.hovered .carousel-control-next {
+  opacity: 1;
+  pointer-events: auto;
 }
