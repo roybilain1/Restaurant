@@ -12,13 +12,13 @@ const sections = [
 const placeholderImage = require('../images/chez-roy-restaurant.png');
 
 const hotMezzaFoods = [
-  { name: 'Sambousek', price: '$5', image: placeholderImage },
-  { name: 'Kibbeh', price: '$8', image: placeholderImage },
-  { name: 'Falafel', price: '$6', image: placeholderImage },
-  { name: 'Batata Harra', price: '$5', image: placeholderImage },
-  { name: 'Soujouk', price: '$7', image: placeholderImage },
-  { name: 'Makanek', price: '$7', image: placeholderImage },
-  { name: 'Cheese Rolls', price: '$6', image: placeholderImage },
+  { name: 'Sambousek', price: '$5', image: require('../images/menu/hot-mezza/sambousek.png') },
+  { name: 'Kibbeh', price: '$8', image: require('../images/menu/hot-mezza/kibbe.png') },
+  { name: 'Falafel', price: '$6', image: require('../images/menu/hot-mezza/falafel.png') },
+  { name: 'Batata Harra', price: '$5', image: require('../images/menu/hot-mezza/soujouk.png') },
+  { name: 'Soujouk', price: '$7', image: require('../images/menu/hot-mezza/soujouk.png') },
+  { name: 'Makanek', price: '$7', image: require('../images/menu/hot-mezza/makanek.png') },
+  { name: 'Cheese Rolls(rkakat)', price: '$6', image: require('../images/menu/hot-mezza/rkakat.png') },
 ];
 
 const coldMezzaFoods = [
