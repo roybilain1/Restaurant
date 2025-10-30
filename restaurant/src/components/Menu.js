@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import '../styles/menu.css';
 
 const sections = [
-  { key: 'hot-mezza', label: 'Hot Mezza' },
   { key: 'cold-mezza', label: 'Cold Mezza' },
+  { key: 'hot-mezza', label: 'Hot Mezza' },
   { key: 'machewe', label: 'Machewe' },
   { key: 'drinks', label: 'Drinks' },
   { key: 'desserts', label: 'Lebanese Desserts' },
@@ -11,34 +11,34 @@ const sections = [
 
 const placeholderImage = require('../images/chez-roy-restaurant.png');
 
+const coldMezzaFoods = [
+  { name: 'Hummus', price: '$5', image: require('../images/menu/cold-mezza/hummus.png') },
+  { name: 'Labneh', price: '$4', image:  require('../images/menu/cold-mezza/labne.png') },
+  { name: 'Moutabbal', price: '$5', image: require('../images/menu/cold-mezza/mutabal.png') },
+  { name: 'Tabbouleh', price: '$6', image:  require('../images/menu/cold-mezza/tabbouleh.png')},
+  { name: 'Fattoush', price: '$6', image:  require('../images/menu/cold-mezza/Fattoush.png')},
+  { name: 'Warak Enab', price: '$7', image: require('../images/menu/cold-mezza/Warek-Enab.png') },
+  { name: 'Shanklish', price: '$6', image:  require('../images/menu/cold-mezza/Shanklish.png')},
+];
+
 const hotMezzaFoods = [
   { name: 'Sambousek', price: '$5', image: require('../images/menu/hot-mezza/sambousek.png') },
   { name: 'Kibbeh', price: '$8', image: require('../images/menu/hot-mezza/kibbe.png') },
   { name: 'Falafel', price: '$6', image: require('../images/menu/hot-mezza/falafel.png') },
-  { name: 'Batata Harra', price: '$5', image: require('../images/menu/hot-mezza/soujouk.png') },
+  { name: 'Batata Harra', price: '$5', image: require('../images/menu/hot-mezza/batata-harra.png') },
   { name: 'Soujouk', price: '$7', image: require('../images/menu/hot-mezza/soujouk.png') },
   { name: 'Makanek', price: '$7', image: require('../images/menu/hot-mezza/makanek.png') },
   { name: 'Cheese Rolls(rkakat)', price: '$6', image: require('../images/menu/hot-mezza/rkakat.png') },
 ];
 
-const coldMezzaFoods = [
-  { name: 'Hummus', price: '$5', image: placeholderImage },
-  { name: 'Labneh', price: '$4', image: placeholderImage },
-  { name: 'Moutabbal', price: '$5', image: placeholderImage },
-  { name: 'Tabbouleh', price: '$6', image: placeholderImage },
-  { name: 'Fattoush', price: '$6', image: placeholderImage },
-  { name: 'Warak Enab', price: '$7', image: placeholderImage },
-  { name: 'Shanklish', price: '$6', image: placeholderImage },
-];
-
 const macheweFoods = [
-  { name: 'Grilled Kafta', price: '$10', image: placeholderImage },
-  { name: 'Grilled Chicken', price: '$11', image: placeholderImage },
-  { name: 'Grilled Meat', price: '$13', image: placeholderImage },
-  { name: 'Taouk', price: '$10', image: placeholderImage },
-  { name: 'Lamb Chops', price: '$15', image: placeholderImage },
-  { name: 'Mixed Grill', price: '$16', image: placeholderImage },
-  { name: 'Arayes', price: '$8', image: placeholderImage },
+  { name: 'Grilled Kafta', price: '$10', image: require('../images/menu/machewe/kafta.png') },
+  { name: 'Grilled Chicken', price: '$11', image: require('../images/menu/machewe/grilled-chicken.png') },
+  { name: 'Grilled Meat', price: '$13', image: require('../images/menu/machewe/grilled-meat.png') },
+  { name: 'Taouk', price: '$10', image: require('../images/menu/machewe/tawouk.png') },
+  { name: 'Lamb Chops', price: '$15', image: require('../images/menu/machewe/lamb-chops.png') },
+  { name: 'Mixed Machewe', price: '$16', image: require('../images/menu/machewe/mixed-machewe.png') },
+  { name: 'kibbeh-kras', price: '$8', image: require('../images/menu/machewe/kibbeh-kras.png') },
 ];
 
 const drinks = [
