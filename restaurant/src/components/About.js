@@ -8,10 +8,19 @@ const About = () => {
     const [hover, setHover] = useState(0);
     const [comment, setComment] = useState('');
     const [submitted, setSubmitted] = useState(false);
+    const [userComments, setUserComments] = useState([]);
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Here we can handle the form submission.
-        setSubmitted(true);
+        e.preventDefault();
+        if (rating > 0 && comment.trim() !== '') {
+            setUserComments([
+                ...userComments,
+                { name: 'You', rating, comment }
+            ]);
+            setSubmitted(true);
+            setComment('');
+            setRating(0);
+        }
     };
 
     // example comments to show below the comment section
@@ -87,6 +96,17 @@ const About = () => {
             <div className="comments-section">
                 <h3>Recent Comments</h3>
                 <div className="comments-grid">
+                    {userComments.map((c, idx) => (
+                        <div className="comment-box-example" key={`user-${idx}`}>
+                            <div className="comment-user">{c.name}</div>
+                            <div className="comment-stars">
+                                {[...Array(5)].map((_, i) => (
+                                    <span key={i} className={i < c.rating ? 'star filled' : 'star'}>&#9733;</span>
+                                ))}
+                            </div>
+                            <div className="comment-text">{c.comment}</div>
+                        </div>
+                    ))}
                     {exampleComments.map((c, idx) => (
                         <div className="comment-box-example" key={idx}>
                             <div className="comment-user">{c.name}</div>
@@ -101,6 +121,8 @@ const About = () => {
                 </div>
             </div>
             {/* old comments section*/}
+
+
         </div>
 
     );
