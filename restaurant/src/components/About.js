@@ -3,7 +3,7 @@ import '../styles/about.css';
 import aboutImage from '../images/chez-roy-restaurant.png';
 
 const About = () => {
-
+    // the rating/comment section 
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [comment, setComment] = useState('');
@@ -14,8 +14,18 @@ const About = () => {
         setSubmitted(true);
     };
 
+    // example comments to show below the comment section
+    const exampleComments = [
+        { name: 'Layla', rating: 5, comment: 'Amazing food and atmosphere! Highly recommended.' },
+        { name: 'Karim', rating: 4, comment: 'Great service, delicious mezza.' },
+        { name: 'Maya', rating: 5, comment: 'Authentic Lebanese flavors, will come again!' },
+        { name: 'Omar', rating: 3, comment: 'Good experience, but the place was a bit crowded.' },
+        { name: 'Nadine', rating: 4, comment: 'Loved the desserts and friendly staff.' },
+    ];
+
     return (
         <div>
+            {/* picture and text about the restaurant */}
             <section className="about-hero">
                 <div className="about-hero-content">
                     <div className="about-hero-text">
@@ -31,10 +41,14 @@ const About = () => {
                     </div>
                 </div>
             </section>
+            {/* picture and text about the restaurant */}
 
+            {/* the comment and rating section */}
             <div className='about-rating-section'>
                 <h2>Rate Your Experience</h2>
                 <form onSubmit={handleSubmit} className="about-rating-form">
+
+                    {/* everything below is the star rating system */}
                     <div className="star-rating">
                         {[...Array(5)].map((_, i) => (
                             <span
@@ -48,6 +62,9 @@ const About = () => {
                             </span>
                         ))}
                     </div>
+                    {/* everything below is the star rating system*/}
+
+                    {/* everything below is the comment box */}
                     <textarea
                         className="comment-box"
                         placeholder="Leave your comment here..."
@@ -55,6 +72,7 @@ const About = () => {
                         onChange={e => setComment(e.target.value)}
                         rows={4}
                     />
+                    {/* everything below is the comment box */}
                     <button type="submit" className="submit-btn">Submit</button>
                 </form>
                 {submitted && (
@@ -63,7 +81,26 @@ const About = () => {
                     </div>
                 )}
             </div>
+            {/* the comment and rating section */}
 
+            {/* old comments section*/}
+            <div className="comments-section">
+                <h3>Recent Comments</h3>
+                <div className="comments-grid">
+                    {exampleComments.map((c, idx) => (
+                        <div className="comment-box-example" key={idx}>
+                            <div className="comment-user">{c.name}</div>
+                            <div className="comment-stars">
+                                {[...Array(5)].map((_, i) => (
+                                    <span key={i} className={i < c.rating ? 'star filled' : 'star'}>&#9733;</span>
+                                ))}
+                            </div>
+                            <div className="comment-text">{c.comment}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            {/* old comments section*/}
         </div>
 
     );
