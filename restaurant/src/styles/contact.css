@@ -1,0 +1,60 @@
+.contact-section {
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 32px 16px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.contact-section h2 {
+  color: #009970;
+  margin-bottom: 32px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.contact-methods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.contact-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgb(243, 194, 194);
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 1.1rem;
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.contact-box i {
+  font-size: 1.7rem;
+}
+
+.contact-box:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+  color: #009970;
+}
+
+.whatsapp i { color: #25d366; }
+.instagram i { color: #e1306c; }
+.facebook i { color: #1877f3; }
+.x i { color: #000; }
+.phone i { color: #009970; }
+
+@media (max-width: 600px) {
+  .contact-methods {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

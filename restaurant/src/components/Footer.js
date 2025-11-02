@@ -1,13 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../styles/Footer.css';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
     <footer className="footer-custom mt-5">
       <div className="container-fluid py-4 d-flex flex-column flex-lg-row align-items-center justify-content-between">
         <div className="d-flex align-items-center mb-3 mb-lg-0">
-          <span className="footer-brand me-3">Chez Roy</span>
+          <Link to="/" className="navbar-brand me-auto">
+            Chez Roy
+          </Link>
         </div>
         <div className="d-flex align-items-center mb-3 mb-lg-0">
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="mx-2 text-decoration-none text-dark">

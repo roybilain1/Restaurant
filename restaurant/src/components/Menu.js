@@ -42,23 +42,23 @@ const macheweFoods = [
 ];
 
 const drinks = [
-  { name: 'Pepsi', price: '$2', image: placeholderImage },
-  { name: '7Up', price: '$2', image: placeholderImage },
-  { name: 'Orange Juice', price: '$3', image: placeholderImage },
-  { name: 'Apple Juice', price: '$3', image: placeholderImage },
-  { name: 'Beer', price: '$4', image: placeholderImage },
-  { name: 'Araq', price: '$5', image: placeholderImage },
-  { name: 'Red Wine', price: '$6', image: placeholderImage },
+  { name: 'Pepsi', price: '$2', image: require('../images/menu/drinks/pepsi.png') },
+  { name: '7Up', price: '$2', image: require('../images/menu/drinks/7up.png') },
+  { name: 'Orange Juice', price: '$3', image: require('../images/menu/drinks/orange-juice.png') },
+  { name: 'Lemonade', price: '$3', image: require('../images/menu/drinks/lemonade.png') },
+  { name: 'Almaza Beer', price: '$4', image: require('../images/menu/drinks/Almaza.png') },
+  { name: 'Rebiiye Araq', price: '$10', image: require('../images/menu/drinks/araq.png') },
+  { name: 'Red Wine glass', price: '$6', image: require('../images/menu/drinks/red-wine.png') },
 ];
 
 const desserts = [
-  { name: 'Baklava', price: '$4', image: placeholderImage },
-  { name: 'Knefeh', price: '$5', image: placeholderImage },
-  { name: 'Maamoul', price: '$4', image: placeholderImage },
-  { name: 'Atayef', price: '$5', image: placeholderImage },
-  { name: 'Mouhalabieh', price: '$4', image: placeholderImage },
-  { name: 'Znoud El Sit', price: '$5', image: placeholderImage },
-  { name: 'Rice Pudding', price: '$4', image: placeholderImage },
+  { name: 'Baklava', price: '$4', image: require('../images/menu/desserts/baklava.png') },
+  { name: 'Knefeh', price: '$5', image: require('../images/menu/desserts/knefe.png') },
+  { name: 'Mafrouke', price: '$4', image: require('../images/menu/desserts/mafrouke.png') },
+  { name: 'Atayef', price: '$5', image: require('../images/menu/desserts/atayef.png') },
+  { name: 'Halewit Al Jeben', price: '$4', image: require('../images/menu/desserts/halawet-el-jibn.png') },
+  { name: 'Znoud El Sit', price: '$5', image: require('../images/menu/desserts/Znoud.png') },
+  { name: 'Halewit Al Rez', price: '$4', image: require('../images/menu/desserts/halewit-al-rez.png') },
 ];
 
 const sectionFoods = {

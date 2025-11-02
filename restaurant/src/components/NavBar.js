@@ -12,9 +12,9 @@ const Navbar = () => {
     <nav>
       <div className="navbar navbar-expand-lg ">
         <div className="container-fluid">
-          <a className="navbar-brand me-auto" href="#">
+          <Link to="/" className="navbar-brand me-auto">
             Chez Roy
-          </a>
+          </Link>
           <div
             className="offcanvas offcanvas-end"
             tabIndex="-1"
