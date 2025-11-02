@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, #f3c2c2 60%, #fff 100%);
+  background: linear-gradient(90deg, #a0daf1, #fff 100%);
   padding: 60px 0;
 }
 
@@ -169,7 +169,7 @@
 }
 
 .comment-box-example {
-  background: rgb(243, 194, 194);
+  background: #a0daf1;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   padding: 18px 14px;

@@ -6,6 +6,25 @@
   margin-bottom: 32px;
 }
 
+/* this make the sections of foods as a slide on small windows */
+@media (max-width: 600px) {
+  .menu-tabs {
+    overflow-x: auto;
+    gap: 16px;
+    padding-bottom: 8px;
+    justify-content: flex-start;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .menu-tab {
+    min-width: 140px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    font-size: 1rem;
+    padding: 10px 0;
+  }
+}
+
 .menu-tab {
   background: none;
   border: none;
@@ -73,23 +92,29 @@
 
 @media (max-width: 600px) {
   .food-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    max-width: 98vw;
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 16px;
+    scroll-snap-type: x mandatory;
   }
   .food-box {
-    height: 400px;
-    width: 98vw;
-    margin: 0 auto;
+    min-width: 60vw;
+    max-width: 220px;
+    height: 260px;
+    padding: 12px 6px;
+    margin: 0;
+    scroll-snap-align: start;
   }
   .food-img {
-    height: 220px;
+    height: 120px;
+    width: 90%;
   }
 }
 
 
 .food-box {
-  background-color: rgb(243, 194, 194);
+  background-color: #b5e0f1;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   padding: 32px 8px;
