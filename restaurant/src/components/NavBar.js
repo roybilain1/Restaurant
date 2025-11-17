@@ -4,9 +4,15 @@ import '../styles/NavBar.css';
 
 import { Link, useLocation } from 'react-router-dom';
 
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+
+
 
 const Navbar = () => {
   const location = useLocation();
+
+  const { cartItems } = useContext(CartContext);
 
   return (
     <nav>
@@ -55,7 +61,7 @@ const Navbar = () => {
                     to="/Cart"
                     className={`nav-link mx-lg-2${location.pathname === '/Cart' ? ' active' : ''}`}
                   >
-                    Cart
+                    🛒 Cart ({cartItems.length})
                   </Link>
                 </li>
                 <li className="nav-item">

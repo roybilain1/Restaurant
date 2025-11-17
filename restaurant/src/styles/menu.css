@@ -92,22 +92,20 @@
 
 @media (max-width: 600px) {
   .food-grid {
-    display: flex;
-    overflow-x: auto;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 12px;
-    padding-bottom: 16px;
-    scroll-snap-type: x mandatory;
+    padding: 0;
   }
   .food-box {
-    min-width: 60vw;
-    max-width: 220px;
-    height: 260px;
-    padding: 12px 6px;
-    margin: 0;
-    scroll-snap-align: start;
+    width: 90vw;
+    max-width: 350px;
+    height: 200px;
+    padding: 10px 4px;
+    margin: 0 auto;
   }
   .food-img {
-    height: 120px;
+    height: 80px;
     width: 90%;
   }
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/menu.css';
+import ProductCard from "../components/ProductCard";
 
 const sections = [
   { key: 'cold-mezza', label: 'Cold Mezza' },
@@ -8,8 +9,6 @@ const sections = [
   { key: 'drinks', label: 'Drinks' },
   { key: 'desserts', label: 'Lebanese Desserts' },
 ];
-
-const placeholderImage = require('../images/chez-roy-restaurant.png');
 
 const coldMezzaFoods = [
   { name: 'Hummus', price: '$5', image: require('../images/menu/cold-mezza/hummus.png') },
