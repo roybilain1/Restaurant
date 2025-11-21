@@ -4,8 +4,9 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "../styles/CarouselCustom.css";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import "./Menu";
+import React, { useState } from 'react';
 
 import image1 from "../images/carousel-pictures/lebanese-food1.png";
 import image2 from "../images/carousel-pictures/lebanese-food2.png";
@@ -17,12 +18,21 @@ import menu3 from "../images/menu/machewe/kafta.png";
 import menu4 from "../images/menu/cold-mezza/tabbouleh.png";
 
 const Home = () => {
+
+  const [isHovered, setIsHovered] = useState(false);
+
+
   return (
     <div className="home-page">
 
       {/* HERO / CAROUSEL SECTION */}
-      <section className="hero-section">
-        <Carousel indicators={false} controls={false} interval={3000}>
+      <section
+        className={`carousel-wrapper${isHovered ? ' hovered' : ''}`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+
+        <Carousel indicators={false} controls={true} interval={3000}>
           <Carousel.Item>
             <img className="d-block w-100 hero-img" src={image1} alt="Delicious Lebanese Dish" />
             <Carousel.Caption>
@@ -73,7 +83,7 @@ const Home = () => {
         <Container>
           <h2>About Us</h2>
           <p className="lead">
-            We bring the heart of Lebanese cuisine straight to your table.  
+            We bring the heart of Lebanese cuisine straight to your table.
             From traditional mezze to sizzling grills, each dish tells a story of flavor and passion.
           </p>
         </Container>

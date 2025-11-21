@@ -1,71 +1,3 @@
-/* .carousel-wrapper {
-  max-width: 1000px; 
-  margin: 40px auto;
-  border-radius: 40px;
-  overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-  border: 1px solid #eaeaea;
-  background: #fff;
-}
-
-.carousel-img {
-  border-radius: 40px;
-  height: 500px; 
-  object-fit: cover;
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-  width: 64px;
-  height: 64px;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.95;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-image: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-}
-
-.carousel-control-prev-icon::after,
-.carousel-control-next-icon::after {
-  content: '';
-  display: block;
-  width: 40px;
-  height: 40px;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.carousel-control-prev-icon::after {
-  background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='white' stroke-width='3' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path d='M22 28L10 16 22 4'/></svg>");
-}
-
-.carousel-control-next-icon::after {
-  background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='white' stroke-width='3' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path d='M10 4l12 12-12 12'/></svg>");
-}
-
-
-/* this code made the arrows fade in and out soothly when hovering over the carousel */
-/* .carousel-wrapper .carousel-control-prev,
-.carousel-wrapper .carousel-control-next {
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.carousel-wrapper.hovered .carousel-control-prev,
-.carousel-wrapper.hovered .carousel-control-next {
-  opacity: 1;
-  pointer-events: auto;
-} */ 
-
 .hero-img {
   height: 90vh;
   object-fit: cover;
@@ -107,4 +39,18 @@
 
 .contact-section {
   background-color: #f8f9fa;
+}
+
+/* arrows fade in and out */
+.carousel-wrapper .carousel-control-prev,
+.carousel-wrapper .carousel-control-next {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.carousel-wrapper.hovered .carousel-control-prev,
+.carousel-wrapper.hovered .carousel-control-next {
+  opacity: 1;
+  pointer-events: auto;
 }

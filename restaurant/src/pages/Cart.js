@@ -18,23 +18,23 @@ const Cart = () => {
       ) : (
         <>
           <div className="d-flex flex-wrap gap-3">
-            {cartItems.map((item) => (
+            {cartItems.map((food) => (
               <div
-                key={item.id}
+                key={food.id}
                 className="card"
                 style={{ width: "250px", borderRadius: "10px" }}
               >
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={food.image}
+                  alt={food.name}
                   className="card-img-top"
                   style={{ borderRadius: "10px 10px 0 0" }}
                 />
                 <div className="card-body">
-                  <h5 className="card-title">{item.name}</h5>
-                  <p className="card-text">${item.price}</p>
+                  <h5 className="card-title">{food.name}</h5>
+                  <p className="card-text">${food.price}</p>
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(food.id)}
                     className="btn btn-outline-danger w-100"
                   >
                     Remove

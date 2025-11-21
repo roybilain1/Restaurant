@@ -69,17 +69,13 @@ const sectionFoods = {
   'desserts': desserts,
 };
 
-const Menu = (dish) => {
+const Menu = (food) => {
   const [activeSection, setActiveSection] = useState(sections[0].key);
 
   const { addToCart } = useContext(CartContext);
-  if (!dish) {
+  if (!food) {
     return <div className="product-card">No product data</div>;
   }
-  const handleAdd = () => {
-    addToCart(dish);
-    alert(`${dish.name} added to cart!`);
-  };
 
   return (
     <div className="menu-page">
@@ -103,7 +99,10 @@ const Menu = (dish) => {
               <p className="food-price">{food.price}</p>
               <button
                 className="add-order-btn"
-                onClick={() => alert(`${food.name} added to cart`)}
+                onClick={() => {
+                  addToCart(food);
+                  alert(`${food.name} added to cart`);
+                }}
               >
                 Add to order
               </button>
