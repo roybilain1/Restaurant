@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../styles/menu.css';
-import ProductCard from "../components/ProductCard";
+import React, { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
 const sections = [
   { key: 'cold-mezza', label: 'Cold Mezza' },
@@ -12,12 +13,12 @@ const sections = [
 
 const coldMezzaFoods = [
   { name: 'Hummus', price: '$5', image: require('../images/menu/cold-mezza/hummus.png') },
-  { name: 'Labneh', price: '$4', image:  require('../images/menu/cold-mezza/labne.png') },
+  { name: 'Labneh', price: '$4', image: require('../images/menu/cold-mezza/labne.png') },
   { name: 'Moutabbal', price: '$5', image: require('../images/menu/cold-mezza/mutabal.png') },
-  { name: 'Tabbouleh', price: '$6', image:  require('../images/menu/cold-mezza/tabbouleh.png')},
-  { name: 'Fattoush', price: '$6', image:  require('../images/menu/cold-mezza/Fattoush.png')},
+  { name: 'Tabbouleh', price: '$6', image: require('../images/menu/cold-mezza/tabbouleh.png') },
+  { name: 'Fattoush', price: '$6', image: require('../images/menu/cold-mezza/Fattoush.png') },
   { name: 'Warak Enab', price: '$7', image: require('../images/menu/cold-mezza/Warek-Enab.png') },
-  { name: 'Shanklish', price: '$6', image:  require('../images/menu/cold-mezza/Shanklish.png')},
+  { name: 'Shanklish', price: '$6', image: require('../images/menu/cold-mezza/Shanklish.png') },
 ];
 
 const hotMezzaFoods = [
@@ -68,8 +69,17 @@ const sectionFoods = {
   'desserts': desserts,
 };
 
-const Menu = () => {
+const Menu = (dish) => {
   const [activeSection, setActiveSection] = useState(sections[0].key);
+
+  const { addToCart } = useContext(CartContext);
+  if (!dish) {
+    return <div className="product-card">No product data</div>;
+  }
+  const handleAdd = () => {
+    addToCart(dish);
+    alert(`${dish.name} added to cart!`);
+  };
 
   return (
     <div className="menu-page">
@@ -91,7 +101,12 @@ const Menu = () => {
               <img src={food.image} alt={food.name} className="food-img" />
               <h3 className="food-name">{food.name}</h3>
               <p className="food-price">{food.price}</p>
-              <button className="add-order-btn">Add to order</button>
+              <button
+                className="add-order-btn"
+                onClick={() => alert(`${food.name} added to cart`)}
+              >
+                Add to order
+              </button>
             </div>
           ))}
         </div>

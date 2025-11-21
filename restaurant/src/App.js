@@ -1,13 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/NavBar';
 import Footer from './components/Footer'
-import Home from './components/Home';
-import Menu from './components/Menu';
-import Cart from './components/Cart';
-import About from './components/About';
-import Contact from './components/Contact';
+import Home from './pages/Home';
+import Menu from './pages/Menu';
+import Cart from './pages/Cart';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import { CartProvider } from "./context/CartContext";
 
 function App() {

@@ -1,7 +1,3 @@
-
-
-
-import React from "react";
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -9,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "../styles/CarouselCustom.css";
 import {Link} from 'react-router-dom';
-import "../components/Menu";
+import "./Menu";
 
 import image1 from "../images/carousel-pictures/lebanese-food1.png";
 import image2 from "../images/carousel-pictures/lebanese-food2.png";
