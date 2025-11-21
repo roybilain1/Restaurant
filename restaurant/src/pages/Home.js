@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "../styles/CarouselCustom.css";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import "./Menu";
 import React, { useState } from 'react';
 
@@ -20,6 +20,7 @@ import menu4 from "../images/menu/cold-mezza/tabbouleh.png";
 const Home = () => {
 
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
 
   return (
@@ -38,22 +39,37 @@ const Home = () => {
             <Carousel.Caption>
               <h1 className="hero-title">Authentic Lebanese Taste</h1>
               <p className="hero-subtitle">Experience the warmth of Lebanon in every bite.</p>
-              <Button variant="light" href="/menu">Explore Menu</Button>
-              {/* <Link to ="/menu" variant="light"> Explore Menu </Link> */}
+              <button
+                className="carousel-menu-btn"
+                onClick={() => navigate('/Menu')}
+              >
+                Explore Menu
+              </button>
+              
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
             <img className="d-block w-100 hero-img" src={image2} alt="Lebanese Mezze" />
             <Carousel.Caption>
               <h1 className="hero-title">Fresh. Flavorful. Lebanese.</h1>
-              <Button variant="light" href="/menu">Order Now</Button>
+              <button
+                className="carousel-menu-btn"
+                onClick={() => navigate('/Menu')}
+              >
+                Order Now
+              </button>
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
             <img className="d-block w-100 hero-img" src={image3} alt="Lebanese Grill" />
             <Carousel.Caption>
               <h1 className="hero-title">Grilled to Perfection</h1>
-              <Button variant="light" href="/menu">Explore Menu</Button>
+              <button
+                className="carousel-menu-btn"
+                onClick={() => navigate('/Menu')}
+              >
+                Explore Menu
+              </button>
             </Carousel.Caption>
           </Carousel.Item>
         </Carousel>
@@ -73,7 +89,12 @@ const Home = () => {
             ))}
           </Row>
           <div className="text-center mt-3">
-            <Button variant="dark" size="lg" href="/menu">See Full Menu</Button>
+            <button
+                className="carousel-menu-btn"
+                onClick={() => navigate('/Menu')}
+              >
+                See Full Menu
+              </button>
           </div>
         </Container>
       </section>
@@ -94,7 +115,12 @@ const Home = () => {
         <Container>
           <h2>Get In Touch</h2>
           <p>We’d love to hear from you! Book a table, order, or just say hi.</p>
-          <Button variant="primary" href="/contact">Contact Us</Button>
+          <button
+                className="carousel-menu-btn"
+                onClick={() => navigate('/Menu')}
+              >
+                Contact Us
+              </button>
         </Container>
       </section>
 

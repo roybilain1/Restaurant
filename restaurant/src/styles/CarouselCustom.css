@@ -54,3 +54,26 @@
   opacity: 1;
   pointer-events: auto;
 }
+
+
+/* buttons of the carousel */
+.carousel-menu-btn {
+  background-color: #009970;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  margin-top: 16px;
+  letter-spacing: 1px;
+}
+
+.carousel-menu-btn:hover {
+  background-color: #007f5c;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+  transform: translateY(-2px) scale(1.04);
+}
