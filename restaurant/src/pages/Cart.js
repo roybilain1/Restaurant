@@ -5,8 +5,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Cart = () => {
   const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
 
-  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
-  const discount = total > 150 ? total * 0.2 : 0;
+  const total = cartItems.reduce((sum, item) => {
+  const price = Number(item.price.replace('$', ''));
+  return sum + price;
+}, 0);
+  const discount = total > 60 ? total * 0.2 : 0;
   const finalTotal = total - discount;
 
   return (
@@ -52,7 +55,7 @@ const Cart = () => {
           </div>
           </div>
 
-          {/* <hr className="my-4" />
+          <hr className="my-4" />
 
           <div className="text-center">
             <h4>
@@ -81,13 +84,7 @@ const Cart = () => {
             >
               Clear Cart
             </button>
-          </div> */}
-          <button
-              onClick={clearCart}
-              className="btn btn-dark mt-3"
-            >
-              Clear Cart
-            </button>
+          </div>
         </>
       )}
     </div>
