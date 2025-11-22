@@ -13,38 +13,46 @@ const Cart = () => {
     <div className="container mt-4">
       <h2>Your Cart 🛒</h2>
 
-      {cartItems.length === 0 ? (
+      {Array.isArray(cartItems) && cartItems.length === 0 ? (
         <p className="text-muted">Your cart is empty.</p>
       ) : (
         <>
           <div className="d-flex flex-wrap gap-3">
-            {cartItems.map((food) => (
-              <div
-                key={food.id}
-                className="card"
+
+            <div className="d-flex flex-wrap gap-3">
+            {cartItems.map((item, idx) => (
+
+              item && typeof item === 'object' ? (
+                <div
+                key={item.id}
+                className="card h-100 d-flex flex-column"
                 style={{ width: "250px", borderRadius: "10px" }}
               >
                 <img
-                  src={food.image}
-                  alt={food.name}
+                  src={item.image}
+                  alt={item.name}
                   className="card-img-top"
-                  style={{ borderRadius: "10px 10px 0 0" }}
+                  style={{ borderRadius: "10px 10px 0 0", height: "160px", objectFit: "cover" }}
                 />
                 <div className="card-body">
-                  <h5 className="card-title">{food.name}</h5>
-                  <p className="card-text">${food.price}</p>
+                  <h5 className="card-title">{item.name}</h5>
+                  <p className="card-text">{item.price}</p>
                   <button
-                    onClick={() => removeFromCart(food.id)}
-                    className="btn btn-outline-danger w-100"
+                    onClick={() => removeFromCart(item.id)}
+                    className="btn btn-outline-danger w-100 mt-auto"
                   >
                     Remove
                   </button>
                 </div>
               </div>
+              ) : null
+
+              
             ))}
           </div>
+          </div>
 
-          <hr className="my-4" />
+          {/* <hr className="my-4" />
 
           <div className="text-center">
             <h4>
@@ -73,7 +81,13 @@ const Cart = () => {
             >
               Clear Cart
             </button>
-          </div>
+          </div> */}
+          <button
+              onClick={clearCart}
+              className="btn btn-dark mt-3"
+            >
+              Clear Cart
+            </button>
         </>
       )}
     </div>

@@ -69,13 +69,10 @@ const sectionFoods = {
   'desserts': desserts,
 };
 
-const Menu = (food) => {
+const Menu = () => {
   const [activeSection, setActiveSection] = useState(sections[0].key);
 
   const { addToCart } = useContext(CartContext);
-  if (!food) {
-    return <div className="product-card">No product data</div>;
-  }
 
   return (
     <div className="menu-page">
@@ -90,7 +87,8 @@ const Menu = (food) => {
           </button>
         ))}
       </div>
-      <div className="menu-section-content">
+      
+        <div className="menu-section-content">
         <div className="food-grid">
           {sectionFoods[activeSection].map((food, idx) => (
             <div className="food-box" key={idx}>
@@ -100,7 +98,7 @@ const Menu = (food) => {
               <button
                 className="add-order-btn"
                 onClick={() => {
-                  addToCart(food);
+                  addToCart({ ...food, id: `${activeSection}-${idx}` });
                   alert(`${food.name} added to cart`);
                 }}
               >
@@ -110,8 +108,12 @@ const Menu = (food) => {
           ))}
         </div>
       </div>
+
     </div>
   );
 };
 
 export default Menu;
+
+
+      
