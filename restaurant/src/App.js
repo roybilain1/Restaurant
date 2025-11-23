@@ -9,6 +9,9 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import { CartProvider } from "./context/CartContext";
 
+import { ToastContainer } from 'react-toastify'; //for notifications
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <div className="app-container">
@@ -27,6 +30,7 @@ function App() {
           <Footer />
         </Router>
       </CartProvider>
+      <ToastContainer position="top-right" autoClose={2000} /> {/* Toast container for notifications. 2 seconds and it closes */}
     </div>
   );
 }

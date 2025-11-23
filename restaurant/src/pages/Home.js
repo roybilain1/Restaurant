@@ -117,7 +117,7 @@ const Home = () => {
           <p>We’d love to hear from you! Book a table, order, or just say hi.</p>
           <button
                 className="carousel-menu-btn"
-                onClick={() => navigate('/Menu')}
+                onClick={() => navigate('/Contact')}
               >
                 Contact Us
               </button>

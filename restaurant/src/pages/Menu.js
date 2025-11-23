@@ -2,6 +2,7 @@ import { useState } from 'react';
 import '../styles/menu.css';
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { toast } from 'react-toastify';
 
 const sections = [
   { key: 'cold-mezza', label: 'Cold Mezza' },
@@ -98,8 +99,11 @@ const Menu = () => {
               <button
                 className="add-order-btn"
                 onClick={() => {
-                  addToCart({ ...food, id: `${activeSection}-${idx}` });
-                  alert(`${food.name} added to cart`);
+                  addToCart(food);
+                  toast.success(`${food.name} added to cart!`, {
+                    icon: "🛒",
+                    style: { background: "#009970", color: "#fff", fontWeight: "bold" }
+                  });
                 }}
               >
                 Add to order
@@ -116,4 +120,4 @@ const Menu = () => {
 export default Menu;
 
 
-      
+
