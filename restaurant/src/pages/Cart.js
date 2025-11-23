@@ -24,7 +24,7 @@ const Cart = () => {
             {cartItems.map((item, idx) => (
               item && typeof item === 'object' ? (
                 <div
-                  key={item.id || idx}
+                  key={idx}
                   className="card"
                   style={{ width: "250px", height: "320px", borderRadius: "10px", display: "flex", flexDirection: "column" }}
                 >
@@ -38,7 +38,7 @@ const Cart = () => {
                     <h5 className="card-title">{item.name}</h5>
                     <p className="card-text">{item.price}</p>
                     <button
-                      onClick={() => removeFromCart(item.id || idx)}
+                      onClick={() => removeFromCart(idx)}
                       className="btn btn-outline-danger w-100 mt-auto"
                     >
                       Remove
