@@ -6,9 +6,9 @@ const Cart = () => {
   const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
 
   const total = cartItems.reduce((sum, item) => {
-  const price = Number(item.price.replace('$', ''));
-  return sum + price;
-}, 0);
+    const price = Number(item.price.replace('$', ''));
+    return sum + price;
+  }, 0);
   const discount = total > 60 ? total * 0.2 : 0;
   const finalTotal = total - discount;
 
@@ -20,39 +20,33 @@ const Cart = () => {
         <p className="text-muted">Your cart is empty.</p>
       ) : (
         <>
-          <div className="d-flex flex-wrap gap-3">
-
-            <div className="d-flex flex-wrap gap-3">
+          <div className="d-flex flex-wrap gap-3 mb-4">
             {cartItems.map((item, idx) => (
-
               item && typeof item === 'object' ? (
                 <div
-                key={item.id}
-                className="card h-100 d-flex flex-column"
-                style={{ width: "250px", borderRadius: "10px" }}
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="card-img-top"
-                  style={{ borderRadius: "10px 10px 0 0", height: "160px", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{item.name}</h5>
-                  <p className="card-text">{item.price}</p>
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="btn btn-outline-danger w-100 mt-auto"
-                  >
-                    Remove
-                  </button>
+                  key={item.id || idx}
+                  className="card"
+                  style={{ width: "250px", height: "320px", borderRadius: "10px", display: "flex", flexDirection: "column" }}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="card-img-top"
+                    style={{ width: "100%", height: "160px", objectFit: "cover", borderRadius: "10px 10px 0 0", background: "#fff" }}
+                  />
+                  <div className="card-body d-flex flex-column justify-content-between" style={{ flex: 1 }}>
+                    <h5 className="card-title">{item.name}</h5>
+                    <p className="card-text">{item.price}</p>
+                    <button
+                      onClick={() => removeFromCart(item.id || idx)}
+                      className="btn btn-outline-danger w-100 mt-auto"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-              </div>
               ) : null
-
-              
             ))}
-          </div>
           </div>
 
           <hr className="my-4" />
