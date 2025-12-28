@@ -1,14 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/about.css';
 import aboutImage from '../images/chez-roy-restaurant.png';
 
 const About = () => {
     // the rating/comment section 
+    const [name, setName] = useState('You');
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [comment, setComment] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [userComments, setUserComments] = useState([]);
+    const [exampleComments, setExampleComments] = useState([]);
+
+    // Fetch comments from API
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const response = await fetch('http://localhost:3001/api/comments');
+                const commentsData = await response.json();
+                setExampleComments(commentsData);
+                console.log('Fetched comments:', commentsData);
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+                // Fallback to hardcoded comments if API fails
+                setExampleComments([
+                    { name: 'Layla', rating: 5, comment: 'Amazing food and atmosphere! Highly recommended.' },
+                    { name: 'Karim', rating: 4, comment: 'Great service, delicious mezza.' },
+                    { name: 'Maya', rating: 5, comment: 'Authentic Lebanese flavors, will come again!' },
+                    { name: 'Omar', rating: 3, comment: 'Good experience, but the place was a bit crowded.' },
+                    { name: 'Nadine', rating: 4, comment: 'Loved the desserts and friendly staff.' },
+                ]);
+            }
+        };
+
+        fetchComments();
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,15 +48,27 @@ const About = () => {
             setRating(0);
         }
     };
-
-    // example comments to show below the comment section
-    const exampleComments = [
-        { name: 'Layla', rating: 5, comment: 'Amazing food and atmosphere! Highly recommended.' },
-        { name: 'Karim', rating: 4, comment: 'Great service, delicious mezza.' },
-        { name: 'Maya', rating: 5, comment: 'Authentic Lebanese flavors, will come again!' },
-        { name: 'Omar', rating: 3, comment: 'Good experience, but the place was a bit crowded.' },
-        { name: 'Nadine', rating: 4, comment: 'Loved the desserts and friendly staff.' },
-    ];
+    
+    // add a new comment to the data base table
+    const addCommentToDatabase = async (name, rating, comment) => {
+        try {
+            const response = await fetch('http://localhost:3001/api/comments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, rating, comment }),
+            });
+            const data = await response.json();
+            if (data.success) {
+                console.log('Comment added successfully:', data);
+            } else {
+                console.error('Failed to add comment:', data.error);
+            }
+        } catch (error) {
+            console.error('Error adding comment:', error);
+        }
+    };
 
     return (
         <div>
@@ -82,7 +120,7 @@ const About = () => {
                         rows={4}
                     />
                     {/* everything below is the comment box */}
-                    <button type="submit" className="submit-btn">Submit</button>
+                    <button type="submit" className="submit-btn" onClick={() => addCommentToDatabase(name, rating, comment)}>Submit</button>
                 </form>
                 {submitted && (
                     <div className="thank-you">

@@ -50,4 +50,14 @@ app.get("/api/foods", (req, res) => {
   });
 });
 
+// GET all comments
+app.get("/api/comments", (req, res) => {
+  const sql = `SELECT * FROM comments ORDER BY created_at DESC`;
+
+  db.query(sql, (err, result) => {
+    if (err) return res.json({ error: err });
+    res.json(result);
+  });
+});
+
 app.listen(3001, () => console.log("Server running in http://localhost:3001"));
