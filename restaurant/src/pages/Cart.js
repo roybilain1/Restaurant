@@ -5,6 +5,28 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Cart = () => {
   const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
 
+  // Helper function to get correct image path
+  const getImageSrc = (item) => {
+    if (!item.image_path) return '';
+    
+    try {
+      // Extract filename from image_path
+      const fileName = item.image_path.split('/').pop();
+      
+      // Try to determine section from the image path
+      const pathParts = item.image_path.split('/');
+      const sectionIndex = pathParts.findIndex(part => part === 'menu');
+      const sectionKey = sectionIndex !== -1 && sectionIndex + 1 < pathParts.length 
+        ? pathParts[sectionIndex + 1] 
+        : 'cold-mezza'; // fallback
+      
+      return require(`../images/menu/${sectionKey}/${fileName}`);
+    } catch (error) {
+      console.warn(`Could not load image for ${item.name}:`, error);
+      return '';
+    }
+  };
+
   const total = cartItems.reduce((sum, item) => {
     const price = Number(item.price.replace('$', ''));
     return sum + price;
@@ -29,7 +51,7 @@ const Cart = () => {
                   style={{ width: "250px", height: "320px", borderRadius: "10px", display: "flex", flexDirection: "column" }}
                 >
                   <img
-                    src={item.image}
+                    src={getImageSrc(item)}
                     alt={item.name}
                     className="card-img-top"
                     style={{ width: "100%", height: "160px", objectFit: "cover", borderRadius: "10px 10px 0 0", background: "#fff" }}
