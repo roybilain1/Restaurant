@@ -21,11 +21,19 @@
     border-radius: 50px;
     text-decoration: none;
     transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
 }
 
 .login-button:hover {
     background-color: #007f5c;
     color: white;
+}
+
+.user-name {
+    color: #009970;
+    font-weight: 600;
+    font-size: 14px;
 }
 
 .navbar-toggler {

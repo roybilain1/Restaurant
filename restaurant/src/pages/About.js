@@ -1,72 +1,100 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 import '../styles/about.css';
 import aboutImage from '../images/chez-roy-restaurant.png';
 
 const About = () => {
+    const { user, isAuthenticated, getToken } = useContext(UserContext);
+    const navigate = useNavigate();
+    
     // the rating/comment section 
-    const [name, setName] = useState('You');
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [comment, setComment] = useState('');
     const [submitted, setSubmitted] = useState(false);
-    const [userComments, setUserComments] = useState([]);
     const [exampleComments, setExampleComments] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     // Fetch comments from API
     useEffect(() => {
-        const fetchComments = async () => {
-            try {
-                const response = await fetch('http://localhost:3001/api/comments');
-                const commentsData = await response.json();
-                setExampleComments(commentsData);
-                console.log('Fetched comments:', commentsData);
-            } catch (error) {
-                console.error('Error fetching comments:', error);
-                // Fallback to hardcoded comments if API fails
-                setExampleComments([
-                    { name: 'Layla', rating: 5, comment: 'Amazing food and atmosphere! Highly recommended.' },
-                    { name: 'Karim', rating: 4, comment: 'Great service, delicious mezza.' },
-                    { name: 'Maya', rating: 5, comment: 'Authentic Lebanese flavors, will come again!' },
-                    { name: 'Omar', rating: 3, comment: 'Good experience, but the place was a bit crowded.' },
-                    { name: 'Nadine', rating: 4, comment: 'Loved the desserts and friendly staff.' },
-                ]);
-            }
-        };
-
         fetchComments();
     }, []);
+    
+    // Auto-hide thank you message after 3 seconds
+    useEffect(() => {
+        if (submitted) {
+            const timer = setTimeout(() => {
+                setSubmitted(false);
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [submitted]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Check if user is logged in
+        if (!isAuthenticated) {
+            alert('Please login to submit a comment');
+            navigate('/login');
+            return;
+        }
+        
         if (rating > 0 && comment.trim() !== '') {
-            setUserComments([
-                ...userComments,
-                { name: 'You', rating, comment }
-            ]);
-            setSubmitted(true);
-            setComment('');
-            setRating(0);
+            setLoading(true);
+            
+            try {
+                // Send comment to backend with authentication token
+                const token = getToken();
+                const response = await fetch('http://localhost:3001/api/comments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ rating, comment })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Don't add to local state, just refresh from backend
+                    setSubmitted(true);
+                    setComment('');
+                    setRating(0);
+                    
+                    // Refresh comments from backend to get the new comment
+                    fetchComments();
+                } else {
+                    alert(data.error || 'Failed to submit comment');
+                }
+            } catch (error) {
+                console.error('Error submitting comment:', error);
+                alert('Failed to submit comment. Please try again.');
+            } finally {
+                setLoading(false);
+            }
         }
     };
     
-    // add a new comment to the data base table
-    const addCommentToDatabase = async (name, rating, comment) => {
+    // Move fetchComments outside useEffect so we can reuse it
+    const fetchComments = async () => {
         try {
-            const response = await fetch('http://localhost:3001/api/comments', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, rating, comment }),
-            });
-            const data = await response.json();
-            if (data.success) {
-                console.log('Comment added successfully:', data);
-            } else {
-                console.error('Failed to add comment:', data.error);
-            }
+            const response = await fetch('http://localhost:3001/api/comments');
+            const commentsData = await response.json();
+            setExampleComments(commentsData);
+            console.log('Fetched comments:', commentsData);
         } catch (error) {
-            console.error('Error adding comment:', error);
+            console.error('Error fetching comments:', error);
+            // Fallback to hardcoded comments if API fails
+            setExampleComments([
+                { name: 'Layla', rating: 5, comment: 'Amazing food and atmosphere! Highly recommended.' },
+                { name: 'Karim', rating: 4, comment: 'Great service, delicious mezza.' },
+                { name: 'Maya', rating: 5, comment: 'Authentic Lebanese flavors, will come again!' },
+                { name: 'Omar', rating: 3, comment: 'Good experience, but the place was a bit crowded.' },
+                { name: 'Nadine', rating: 4, comment: 'Loved the desserts and friendly staff.' },
+            ]);
         }
     };
 
@@ -118,9 +146,16 @@ const About = () => {
                         value={comment}
                         onChange={e => setComment(e.target.value)}
                         rows={4}
+                        disabled={!isAuthenticated}
                     />
                     {/* everything below is the comment box */}
-                    <button type="submit" className="submit-btn" onClick={() => addCommentToDatabase(name, rating, comment)}>Submit</button>
+                    <button 
+                        type="submit" 
+                        className="submit-btn" 
+                        disabled={loading || !isAuthenticated}
+                    >
+                        {loading ? 'Submitting...' : (isAuthenticated ? 'Submit' : 'Login to Comment')}
+                    </button>
                 </form>
                 {submitted && (
                     <div className="thank-you">
@@ -134,17 +169,6 @@ const About = () => {
             <div className="comments-section">
                 <h3>Recent Comments</h3>
                 <div className="comments-grid">
-                    {userComments.map((c, idx) => (
-                        <div className="comment-box-example" key={`user-${idx}`}>
-                            <div className="comment-user">{c.name}</div>
-                            <div className="comment-stars">
-                                {[...Array(5)].map((_, i) => (
-                                    <span key={i} className={i < c.rating ? 'star filled' : 'star'}>&#9733;</span>
-                                ))}
-                            </div>
-                            <div className="comment-text">{c.comment}</div>
-                        </div>
-                    ))}
                     {exampleComments.map((c, idx) => (
                         <div className="comment-box-example" key={idx}>
                             <div className="comment-user">{c.name}</div>

@@ -6,6 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { UserContext } from "../context/UserContext";
 
 
 
@@ -13,6 +14,7 @@ const Navbar = () => {
   const location = useLocation();
 
   const { cartItems } = useContext(CartContext);
+  const { user, logout, isAuthenticated } = useContext(UserContext);
 
   return (
     <nav>
@@ -83,7 +85,19 @@ const Navbar = () => {
               </ul>
             </div>
           </div>
-          <a href="#" className="login-button"> Login </a>
+
+          {/* Show user name and logout if logged in, otherwise show login button */}
+          {isAuthenticated ? (
+            <div className="d-flex align-items-center">
+              <span className="user-name me-3">Welcome, {user.name}</span>
+              <button onClick={logout} className="login-button">
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="login-button">Login</Link>
+          )}
+
           <button
             className="navbar-toggler"
             type="button"

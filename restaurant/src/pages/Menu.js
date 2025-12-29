@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 import '../styles/menu.css';
 import { CartContext } from "../context/CartContext";
+import { UserContext } from "../context/UserContext";
 import { toast } from 'react-toastify';
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -13,6 +15,8 @@ const Menu = () => {
   const [activeSection, setActiveSection] = useState(''); // Empty string initially
   
   const { addToCart } = useContext(CartContext);
+  const { isAuthenticated } = useContext(UserContext);
+  const navigate = useNavigate();
 
   // Helper function to get correct image path
   const getImageSrc = (food, sectionKey) => {
@@ -87,14 +91,30 @@ const Menu = () => {
               <button
                 className="add-order-btn"
                 onClick={() => {
-                  addToCart({ ...food, id: idx })
+                  // Check if user is logged in
+                  if (!isAuthenticated) {
+                    toast.error('Please login to add items to cart!', {
+                      icon: "🔒",
+                      style: { background: "#dc3545", color: "#fff", fontWeight: "bold" }
+                    });
+                    navigate('/login');
+                    return;
+                  }
+                  
+                  // Add to cart if logged in
+                  addToCart({ 
+                    id: food.id,
+                    name: food.name,
+                    price: food.price,
+                    image_path: food.image_path
+                  });
                   toast.success(`${food.name} added to cart!`, {
                     icon: "🛒",
                     style: { background: "#009970", color: "#fff", fontWeight: "bold" }
                   });
                 }}
               >
-                Add to order
+                {isAuthenticated ? 'Add to order' : 'Login to Order'}
               </button>
             </div>
           ))}
