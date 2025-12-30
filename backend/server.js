@@ -331,9 +331,9 @@ app.post("/api/cart", (req, res) => {
                 return res.status(400).json({ error: 'Food name and price are required' });
             }
 
-            // Insert cart item
-            const insertQuery = 'INSERT INTO cart_items (user_id, food_id, food_name, food_price, image_path, quantity) VALUES (?, ?, ?, ?, ?, ?)';
-            db.query(insertQuery, [decoded.id, food_id || null, food_name, food_price, image_path, quantity || 1], (err, result) => {
+            // Insert cart item with user name and email from JWT token
+            const insertQuery = 'INSERT INTO cart_items (user_id, user_name, user_email, food_id, food_name, food_price, image_path, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+            db.query(insertQuery, [decoded.id, decoded.name, decoded.email, food_id || null, food_name, food_price, image_path, quantity || 1], (err, result) => {
                 if (err) {
                     console.error('Error adding to cart:', err);
                     return res.status(500).json({ error: 'Failed to add to cart' });
