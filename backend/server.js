@@ -12,14 +12,15 @@ app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
 // JWT Secret Key (In production, use environment variable)
-const JWT_SECRET = 'your-secret-key-change-this-in-production';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this-in-production';
 
 // Database connection configuration
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'restaurant'
+    host: process.env.DB_HOST || process.env.MYSQLHOST || 'localhost',
+    user: process.env.DB_USER || process.env.MYSQLUSER || 'root',
+    password: process.env.DB_PASSWORD || process.env.MYSQLPASSWORD || '',
+    database: process.env.DB_NAME || process.env.MYSQLDATABASE || 'restaurant',
+    port: process.env.DB_PORT || process.env.MYSQLPORT || 3306
 });
 
 // Connect to database
@@ -461,7 +462,7 @@ app.get("/", (req, res) => {
 // START SERVER
 // ============================================
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`🚀 Chez Roy Backend Server running on http://localhost:${PORT}`);
     console.log(`📋 Menu API: Ready`);
