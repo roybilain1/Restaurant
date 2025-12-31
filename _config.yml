@@ -1,0 +1,20 @@
+# Exclude everything that shouldn't be on GitHub Pages
+exclude:
+  - node_modules/
+  - backend/
+  - restaurant/node_modules/
+  - restaurant/src/
+  - restaurant/public/
+  - "*.log"
+  - .DS_Store
+  - package.json
+  - package-lock.json
+
+# Only include the built React app
+include:
+  - restaurant/build/
+  - README.md
+  - assets/
+
+# Use the restaurant/build as the source for GitHub Pages
+source: restaurant/build
