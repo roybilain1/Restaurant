@@ -16,6 +16,15 @@ const Navbar = () => {
   const { cartItems } = useContext(CartContext);
   const { user, logout, isAuthenticated } = useContext(UserContext);
 
+  // Function to close the offcanvas menu
+  const closeMenu = () => {
+    const offcanvasElement = document.getElementById('offcanvasNavbar');
+    const bsOffcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
+    if (bsOffcanvas) {
+      bsOffcanvas.hide();
+    }
+  };
+
   return (
     <nav>
       <div className="navbar navbar-expand-lg ">
@@ -46,6 +55,7 @@ const Navbar = () => {
                   <Link
                     to="/"
                     className={`nav-link mx-lg-2${location.pathname === '/' ? ' active' : ''}`}
+                    onClick={closeMenu}
                   >
                     Home
                   </Link>
@@ -54,6 +64,7 @@ const Navbar = () => {
                   <Link
                     to="/Menu"
                     className={`nav-link mx-lg-2${location.pathname === '/Menu' ? ' active' : ''}`}
+                    onClick={closeMenu}
                   >
                     Menu
                   </Link>
@@ -62,6 +73,7 @@ const Navbar = () => {
                   <Link
                     to="/Cart"
                     className={`nav-link mx-lg-2${location.pathname === '/Cart' ? ' active' : ''}`}
+                    onClick={closeMenu}
                   >
                     🛒 Cart ({cartItems.length})
                   </Link>
@@ -70,6 +82,7 @@ const Navbar = () => {
                   <Link
                     to="/About"
                     className={`nav-link mx-lg-2${location.pathname === '/About' ? ' active' : ''}`}
+                    onClick={closeMenu}
                   >
                     About us
                   </Link>
@@ -78,6 +91,7 @@ const Navbar = () => {
                   <Link
                     to="/Contact"
                     className={`nav-link mx-lg-2${location.pathname === '/Contact' ? ' active' : ''}`}
+                    onClick={closeMenu}
                   >
                     Contact us
                   </Link>
@@ -87,16 +101,18 @@ const Navbar = () => {
           </div>
 
           {/* Show user name and logout if logged in, otherwise show login button */}
-          {isAuthenticated ? (
-            <div className="d-flex align-items-center">
-              <span className="user-name me-3">Welcome, {user.name}</span>
-              <button onClick={logout} className="login-button">
-                Logout
-              </button>
-            </div>
-          ) : (
-            <Link to="/login" className="login-button">Login</Link>
-          )}
+          <div className="user-section">
+            {isAuthenticated ? (
+              <div className="d-flex align-items-center">
+                <span className="user-name me-2">Welcome, {user.name}</span>
+                <button onClick={logout} className="login-button">
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="login-button">Login</Link>
+            )}
+          </div>
 
           <button
             className="navbar-toggler"

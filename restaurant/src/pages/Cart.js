@@ -55,13 +55,13 @@ const Cart = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Your Cart 🛒</h2>
+      <h2 className="text-center">Your Cart 🛒</h2>
 
       {Array.isArray(cartItems) && cartItems.length === 0 ? (
-        <p className="text-muted">Your cart is empty.</p>
+        <p className="text-muted text-center">Your cart is empty.</p>
       ) : (
         <>
-          <div className="d-flex flex-wrap gap-3 mb-4">
+          <div className="d-flex flex-wrap gap-3 mb-4 justify-content-center">
             {cartItems.map((item) => (
               item && typeof item === 'object' ? (
                 <div

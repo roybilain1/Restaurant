@@ -23,6 +23,7 @@
     transition: background-color 0.3s;
     border: none;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .login-button:hover {
@@ -34,6 +35,16 @@
     color: #009970;
     font-weight: 600;
     font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
 }
 
 .navbar-toggler {
@@ -76,6 +87,57 @@
     .nav-link.active::before {
         width: 100%;
         visibility: visible;
+    }
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 990px) {
+    .navbar {
+        height: auto;
+        min-height: 60px;
+        padding: 0.5rem;
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
+
+    .user-name {
+        font-size: 11px;
+        max-width: 80px;
+    }
+
+    .login-button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .user-section {
+        margin-right: 5px;
+    }
+
+    .container-fluid {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        margin: 10px;
+    }
+
+    .navbar-brand {
+        font-size: 16px;
+    }
+
+    .user-name {
+        display: none; /* Hide welcome message on very small screens */
+    }
+
+    .login-button {
+        font-size: 11px;
+        padding: 5px 8px;
     }
 }
 
