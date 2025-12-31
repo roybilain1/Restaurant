@@ -19,8 +19,11 @@ const Navbar = () => {
   // Function to close the offcanvas menu
   const closeMenu = () => {
     const offcanvasElement = document.getElementById('offcanvasNavbar');
-    const bsOffcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
-    if (bsOffcanvas) {
+    if (offcanvasElement) {
+      let bsOffcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
+      if (!bsOffcanvas) {
+        bsOffcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
+      }
       bsOffcanvas.hide();
     }
   };
@@ -104,6 +107,9 @@ const Navbar = () => {
           <div className="user-section">
             {isAuthenticated ? (
               <div className="d-flex align-items-center">
+                <div className="user-avatar me-2">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
                 <span className="user-name me-2">Welcome, {user.name}</span>
                 <button onClick={logout} className="login-button">
                   Logout

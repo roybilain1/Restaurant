@@ -41,6 +41,20 @@
     max-width: 150px;
 }
 
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #009970 0%, #007f5c 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0, 153, 112, 0.3);
+}
+
 .user-section {
     display: flex;
     align-items: center;
@@ -102,6 +116,12 @@
         font-size: 18px;
     }
 
+    .user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
     .user-name {
         font-size: 11px;
         max-width: 80px;
@@ -129,6 +149,12 @@
 
     .navbar-brand {
         font-size: 16px;
+    }
+
+    .user-avatar {
+        width: 26px;
+        height: 26px;
+        font-size: 11px;
     }
 
     .user-name {
