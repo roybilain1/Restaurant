@@ -59,6 +59,7 @@ const Navbar = () => {
                     to="/"
                     className={`nav-link mx-lg-2${location.pathname === '/' ? ' active' : ''}`}
                     onClick={closeMenu}
+                    data-bs-dismiss="offcanvas"
                   >
                     Home
                   </Link>
@@ -68,6 +69,7 @@ const Navbar = () => {
                     to="/Menu"
                     className={`nav-link mx-lg-2${location.pathname === '/Menu' ? ' active' : ''}`}
                     onClick={closeMenu}
+                    data-bs-dismiss="offcanvas"
                   >
                     Menu
                   </Link>
@@ -77,6 +79,7 @@ const Navbar = () => {
                     to="/Cart"
                     className={`nav-link mx-lg-2${location.pathname === '/Cart' ? ' active' : ''}`}
                     onClick={closeMenu}
+                    data-bs-dismiss="offcanvas"
                   >
                     🛒 Cart ({cartItems.length})
                   </Link>
@@ -86,6 +89,7 @@ const Navbar = () => {
                     to="/About"
                     className={`nav-link mx-lg-2${location.pathname === '/About' ? ' active' : ''}`}
                     onClick={closeMenu}
+                    data-bs-dismiss="offcanvas"
                   >
                     About us
                   </Link>
@@ -95,6 +99,7 @@ const Navbar = () => {
                     to="/Contact"
                     className={`nav-link mx-lg-2${location.pathname === '/Contact' ? ' active' : ''}`}
                     onClick={closeMenu}
+                    data-bs-dismiss="offcanvas"
                   >
                     Contact us
                   </Link>

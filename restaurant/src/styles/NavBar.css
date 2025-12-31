@@ -36,9 +36,6 @@
     font-weight: 600;
     font-size: 14px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 150px;
 }
 
 .user-avatar {
@@ -53,6 +50,7 @@
     font-weight: 700;
     font-size: 14px;
     box-shadow: 0 2px 8px rgba(0, 153, 112, 0.3);
+    flex-shrink: 0;
 }
 
 .user-section {
@@ -124,7 +122,9 @@
 
     .user-name {
         font-size: 11px;
-        max-width: 80px;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .login-button {
