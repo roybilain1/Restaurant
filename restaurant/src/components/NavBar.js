@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../styles/NavBar.css';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
@@ -12,21 +12,23 @@ import { UserContext } from "../context/UserContext";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { cartItems } = useContext(CartContext);
   const { user, logout, isAuthenticated } = useContext(UserContext);
 
-  // Function to close the offcanvas menu immediately
-  const closeMenu = () => {
+  // Function to handle navigation and close menu
+  const handleNavClick = (e, path) => {
+    e.preventDefault();
     const offcanvasElement = document.getElementById('offcanvasNavbar');
     if (offcanvasElement) {
       let bsOffcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
-      if (!bsOffcanvas) {
-        bsOffcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
+      if (bsOffcanvas) {
+        bsOffcanvas.hide();
       }
-      // Close immediately for instant navigation
-      bsOffcanvas.hide();
     }
+    // Navigate immediately
+    navigate(path);
   };
 
   return (
@@ -59,7 +61,7 @@ const Navbar = () => {
                   <Link
                     to="/"
                     className={`nav-link mx-lg-2${location.pathname === '/' ? ' active' : ''}`}
-                    onClick={closeMenu}
+                    onClick={(e) => handleNavClick(e, '/')}
                   >
                     Home
                   </Link>
@@ -68,7 +70,7 @@ const Navbar = () => {
                   <Link
                     to="/Menu"
                     className={`nav-link mx-lg-2${location.pathname === '/Menu' ? ' active' : ''}`}
-                    onClick={closeMenu}
+                    onClick={(e) => handleNavClick(e, '/Menu')}
                   >
                     Menu
                   </Link>
@@ -77,7 +79,7 @@ const Navbar = () => {
                   <Link
                     to="/Cart"
                     className={`nav-link mx-lg-2${location.pathname === '/Cart' ? ' active' : ''}`}
-                    onClick={closeMenu}
+                    onClick={(e) => handleNavClick(e, '/Cart')}
                   >
                     🛒 Cart ({cartItems.length})
                   </Link>
@@ -86,7 +88,7 @@ const Navbar = () => {
                   <Link
                     to="/About"
                     className={`nav-link mx-lg-2${location.pathname === '/About' ? ' active' : ''}`}
-                    onClick={closeMenu}
+                    onClick={(e) => handleNavClick(e, '/About')}
                   >
                     About us
                   </Link>
@@ -95,7 +97,7 @@ const Navbar = () => {
                   <Link
                     to="/Contact"
                     className={`nav-link mx-lg-2${location.pathname === '/Contact' ? ' active' : ''}`}
-                    onClick={closeMenu}
+                    onClick={(e) => handleNavClick(e, '/Contact')}
                   >
                     Contact us
                   </Link>
