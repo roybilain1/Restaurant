@@ -16,7 +16,7 @@ const Navbar = () => {
   const { cartItems } = useContext(CartContext);
   const { user, logout, isAuthenticated } = useContext(UserContext);
 
-  // Function to close the offcanvas menu
+  // Function to close the offcanvas menu immediately
   const closeMenu = () => {
     const offcanvasElement = document.getElementById('offcanvasNavbar');
     if (offcanvasElement) {
@@ -24,6 +24,7 @@ const Navbar = () => {
       if (!bsOffcanvas) {
         bsOffcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
       }
+      // Close immediately for instant navigation
       bsOffcanvas.hide();
     }
   };
@@ -59,7 +60,6 @@ const Navbar = () => {
                     to="/"
                     className={`nav-link mx-lg-2${location.pathname === '/' ? ' active' : ''}`}
                     onClick={closeMenu}
-                    data-bs-dismiss="offcanvas"
                   >
                     Home
                   </Link>
@@ -69,7 +69,6 @@ const Navbar = () => {
                     to="/Menu"
                     className={`nav-link mx-lg-2${location.pathname === '/Menu' ? ' active' : ''}`}
                     onClick={closeMenu}
-                    data-bs-dismiss="offcanvas"
                   >
                     Menu
                   </Link>
@@ -79,7 +78,6 @@ const Navbar = () => {
                     to="/Cart"
                     className={`nav-link mx-lg-2${location.pathname === '/Cart' ? ' active' : ''}`}
                     onClick={closeMenu}
-                    data-bs-dismiss="offcanvas"
                   >
                     🛒 Cart ({cartItems.length})
                   </Link>
@@ -89,7 +87,6 @@ const Navbar = () => {
                     to="/About"
                     className={`nav-link mx-lg-2${location.pathname === '/About' ? ' active' : ''}`}
                     onClick={closeMenu}
-                    data-bs-dismiss="offcanvas"
                   >
                     About us
                   </Link>
@@ -99,7 +96,6 @@ const Navbar = () => {
                     to="/Contact"
                     className={`nav-link mx-lg-2${location.pathname === '/Contact' ? ' active' : ''}`}
                     onClick={closeMenu}
-                    data-bs-dismiss="offcanvas"
                   >
                     Contact us
                   </Link>
