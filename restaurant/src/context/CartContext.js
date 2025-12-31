@@ -3,7 +3,7 @@ import { UserContext } from "./UserContext";
 
 export const CartContext = createContext();
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://dynamic-energy-production.up.railway.app/api";
 
 export const CartProvider = ({ children }) => {
   const { user } = useContext(UserContext);

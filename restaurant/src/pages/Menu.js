@@ -36,7 +36,7 @@ const Menu = () => {
     const fetchData = async () => {
       try {
         console.log('Fetching sections...');
-        const sectionsResponse = await fetch('http://localhost:3001/api/sections');
+        const sectionsResponse = await fetch('https://dynamic-energy-production.up.railway.app/api/menu');
         console.log('Sections response:', sectionsResponse);
         
         const sectionsData = await sectionsResponse.json();
@@ -45,7 +45,7 @@ const Menu = () => {
         setSections(sectionsData);
         setActiveSection(sectionsData[0].section_key); // Use section_key instead of key
 
-        const foodsResponse = await fetch('http://localhost:3001/api/foods');
+        const foodsResponse = await fetch('https://dynamic-energy-production.up.railway.app/api/foods');
         const foodsData = await foodsResponse.json();
         
         // Organize foods by section_key

@@ -19,7 +19,7 @@ export const UserProvider = ({ children }) => {
     // Verify token with backend
     const verifyToken = async (token) => {
         try {
-            const response = await fetch('http://localhost:3001/api/auth/verify', {
+            const response = await fetch('https://dynamic-energy-production.up.railway.app/api/auth/verify', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -43,7 +43,7 @@ export const UserProvider = ({ children }) => {
     // Login function
     const login = async (email, password) => {
         try {
-            const response = await fetch('http://localhost:3001/api/auth/login', {
+            const response = await fetch('https://dynamic-energy-production.up.railway.app/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ export const UserProvider = ({ children }) => {
     // Signup function
     const signup = async (name, email, password) => {
         try {
-            const response = await fetch('http://localhost:3001/api/auth/signup', {
+            const response = await fetch('https://dynamic-energy-production.up.railway.app/api/auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

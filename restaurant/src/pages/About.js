@@ -47,7 +47,7 @@ const About = () => {
             try {
                 // Send comment to backend with authentication token
                 const token = getToken();
-                const response = await fetch('http://localhost:3001/api/comments', {
+                const response = await fetch('https://dynamic-energy-production.up.railway.app/api/comments', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const About = () => {
     // Move fetchComments outside useEffect so we can reuse it
     const fetchComments = async () => {
         try {
-            const response = await fetch('http://localhost:3001/api/comments');
+            const response = await fetch('https://dynamic-energy-production.up.railway.app/api/comments');
             const commentsData = await response.json();
             setExampleComments(commentsData);
             console.log('Fetched comments:', commentsData);
