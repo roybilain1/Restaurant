@@ -36,7 +36,7 @@ const Menu = () => {
     const fetchData = async () => {
       try {
         console.log('Fetching sections...');
-        const sectionsResponse = await fetch('https://dynamic-energy-production.up.railway.app/api/menu');
+        const sectionsResponse = await fetch('https://dynamic-energy-production.up.railway.app/api/sections');
         console.log('Sections response:', sectionsResponse);
         
         const sectionsData = await sectionsResponse.json();
