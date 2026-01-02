@@ -31,9 +31,7 @@ const About = () => {
         }
     }, [submitted]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
+    const handleSubmit = async () => {
         // Check if user is logged in
         if (!isAuthenticated) {
             alert('Please login to submit a comment');
@@ -130,7 +128,7 @@ const About = () => {
             {/* the comment and rating section */}
             <div className='about-rating-section'>
                 <h2>Rate Your Experience</h2>
-                <form onSubmit={handleSubmit} className="about-rating-form">
+                <div className="about-rating-form">
 
                     {/* everything below is the star rating system */}
                     <div className="star-rating">
@@ -159,13 +157,14 @@ const About = () => {
                     />
                     {/* everything below is the comment box */}
                     <button 
-                        type="submit" 
+                        type="button" 
                         className="submit-btn" 
                         disabled={loading}
+                        onClick={handleSubmit}
                     >
                         {loading ? 'Submitting...' : (isAuthenticated ? 'Submit' : 'Login to Comment')}
                     </button>
-                </form>
+                </div>
                 {submitted && (
                     <div className="thank-you">
                         <p>Thank you for your feedback!</p>
