@@ -113,9 +113,10 @@ Multi-language support
 
 Table reservations
 
-Github Link:
+1️⃣ Clone the repository git clone https://github.com/roybilain1/Restaurant.git
 
 
 🌟 Summary
 
 CHEZ ROY! showcases a complete full-stack restaurant solution, combining modern frontend design with a secure and scalable backend. The project reflects real-world development practices and serves as a strong portfolio example for web and software development roles.
+
