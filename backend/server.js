@@ -14,22 +14,34 @@ app.use("/uploads", express.static("uploads"));
 // JWT Secret Key (In production, use environment variable)
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this-in-production';
 
-// Database connection configuration
-const db = mysql.createConnection({
+// Database connection configuration with pool for better handling
+const pool = mysql.createPool({
     host: process.env.DB_HOST || process.env.MYSQLHOST || 'localhost',
     user: process.env.DB_USER || process.env.MYSQLUSER || 'root',
     password: process.env.DB_PASSWORD || process.env.MYSQLPASSWORD || '',
     database: process.env.DB_NAME || process.env.MYSQLDATABASE || 'restaurant',
-    port: process.env.DB_PORT || process.env.MYSQLPORT || 3306
+    port: process.env.DB_PORT || process.env.MYSQLPORT || 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-// Connect to database
-db.connect((err) => {
+const db = pool.promise();
+
+// Test database connection
+pool.getConnection((err, connection) => {
     if (err) {
-        console.error('Error connecting to database:', err);
+        console.error('❌ Error connecting to database:', err);
+        console.error('DB Config:', {
+            host: process.env.DB_HOST || process.env.MYSQLHOST,
+            user: process.env.DB_USER || process.env.MYSQLUSER,
+            database: process.env.DB_NAME || process.env.MYSQLDATABASE,
+            port: process.env.DB_PORT || process.env.MYSQLPORT
+        });
         return;
     }
     console.log('✅ Connected to MySQL database');
+    connection.release();
 });
 
 // ============================================
@@ -37,40 +49,38 @@ db.connect((err) => {
 // ============================================
 
 // GET all sections for menu
-app.get("/api/sections", (req, res) => {
-    const sql = `SELECT * FROM sections ORDER BY display_order`;
-    
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error('Error fetching sections:', err);
-            return res.status(500).json({ error: err });
-        }
+app.get("/api/sections", async (req, res) => {
+    try {
+        const sql = `SELECT * FROM sections ORDER BY display_order`;
+        const [result] = await db.query(sql);
         res.json(result);
-    });
+    } catch (err) {
+        console.error('Error fetching sections:', err);
+        res.status(500).json({ error: 'Failed to fetch sections', details: err.message });
+    }
 });
 
 // GET all foods for menu
-app.get("/api/foods", (req, res) => {
-    const sql = `SELECT * FROM foods ORDER BY section_id, display_order`;
-    
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error('Error fetching foods:', err);
-            return res.status(500).json({ error: err });
-        }
+app.get("/api/foods", async (req, res) => {
+    try {
+        const sql = `SELECT * FROM foods ORDER BY section_id, display_order`;
+        const [result] = await db.query(sql);
         res.json(result);
-    });
+    } catch (err) {
+        console.error('Error fetching foods:', err);
+        res.status(500).json({ error: 'Failed to fetch foods', details: err.message });
+    }
 });
 
 // GET restaurant info
-app.get("/restaurant", (req, res) => {
-    db.query("SELECT * FROM restaurant", (err, results) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ error: "Internal Server Error" });
-        }
+app.get("/restaurant", async (req, res) => {
+    try {
+        const [results] = await db.query("SELECT * FROM restaurant");
         res.json(results);
-    });
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 });
 
 // ============================================
@@ -93,42 +103,32 @@ app.post("/api/auth/signup", async (req, res) => {
 
         // Check if user already exists
         const checkUserQuery = 'SELECT * FROM users WHERE email = ?';
-        db.query(checkUserQuery, [email], async (err, results) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).json({ error: 'Database error' });
-            }
+        const [existingUsers] = await db.query(checkUserQuery, [email]);
 
-            if (results.length > 0) {
-                return res.status(400).json({ error: 'Email already registered' });
-            }
+        if (existingUsers.length > 0) {
+            return res.status(400).json({ error: 'Email already registered' });
+        }
 
-            // Hash password
-            const saltRounds = 10;
-            const hashedPassword = await bcrypt.hash(password, saltRounds);
+        // Hash password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-            // Insert new user
-            const insertQuery = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
-            db.query(insertQuery, [name, email, hashedPassword], (err, result) => {
-                if (err) {
-                    console.error('Error creating user:', err);
-                    return res.status(500).json({ error: 'Failed to create account' });
-                }
+        // Insert new user
+        const insertQuery = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
+        const [result] = await db.query(insertQuery, [name, email, hashedPassword]);
 
-                // Create JWT token
-                const token = jwt.sign(
-                    { id: result.insertId, name, email },
-                    JWT_SECRET,
-                    { expiresIn: '7d' }
-                );
+        // Create JWT token
+        const token = jwt.sign(
+            { id: result.insertId, name, email },
+            JWT_SECRET,
+            { expiresIn: '7d' }
+        );
 
-                res.json({
-                    success: true,
-                    message: 'Account created successfully',
-                    token,
-                    user: { id: result.insertId, name, email }
-                });
-            });
+        res.json({
+            success: true,
+            message: 'Account created successfully',
+            token,
+            user: { id: result.insertId, name, email }
         });
     } catch (error) {
         console.error('Signup error:', error);
@@ -137,7 +137,7 @@ app.post("/api/auth/signup", async (req, res) => {
 });
 
 // Login - Authenticate user
-app.post("/api/auth/login", (req, res) => {
+app.post("/api/auth/login", async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -148,37 +148,32 @@ app.post("/api/auth/login", (req, res) => {
 
         // Find user by email
         const query = 'SELECT * FROM users WHERE email = ?';
-        db.query(query, [email], async (err, results) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).json({ error: 'Database error' });
-            }
+        const [results] = await db.query(query, [email]);
 
-            if (results.length === 0) {
-                return res.status(401).json({ error: 'Invalid email or password' });
-            }
+        if (results.length === 0) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
 
-            const user = results[0];
+        const user = results[0];
 
-            // Compare password
-            const isPasswordValid = await bcrypt.compare(password, user.password);
-            if (!isPasswordValid) {
-                return res.status(401).json({ error: 'Invalid email or password' });
-            }
+        // Compare password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
 
-            // Create JWT token
-            const token = jwt.sign(
-                { id: user.id, name: user.name, email: user.email },
-                JWT_SECRET,
-                { expiresIn: '7d' }
-            );
+        // Create JWT token
+        const token = jwt.sign(
+            { id: user.id, name: user.name, email: user.email },
+            JWT_SECRET,
+            { expiresIn: '7d' }
+        );
 
-            res.json({
-                success: true,
-                message: 'Login successful',
-                token,
-                user: { id: user.id, name: user.name, email: user.email }
-            });
+        res.json({
+            success: true,
+            message: 'Login successful',
+            token,
+            user: { id: user.id, name: user.name, email: user.email }
         });
     } catch (error) {
         console.error('Login error:', error);
@@ -216,24 +211,19 @@ app.get("/api/auth/verify", (req, res) => {
 // ============================================
 
 // Get all comments
-app.get("/api/comments", (req, res) => {
+app.get("/api/comments", async (req, res) => {
     try {
         const query = 'SELECT * FROM comments ORDER BY created_at DESC';
-        db.query(query, (err, results) => {
-            if (err) {
-                console.error('Error fetching comments:', err);
-                return res.status(500).json({ error: 'Failed to fetch comments' });
-            }
-            res.json(results);
-        });
+        const [results] = await db.query(query);
+        res.json(results);
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Server error' });
+        console.error('Error fetching comments:', error);
+        res.status(500).json({ error: 'Failed to fetch comments' });
     }
 });
 
 // Add new comment (Protected - requires authentication)
-app.post("/api/comments", (req, res) => {
+app.post("/api/comments", async (req, res) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
 
@@ -241,38 +231,31 @@ app.post("/api/comments", (req, res) => {
             return res.status(401).json({ error: 'Authentication required' });
         }
 
-        jwt.verify(token, JWT_SECRET, (err, decoded) => {
-            if (err) {
-                return res.status(401).json({ error: 'Invalid token' });
-            }
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const { rating, comment } = req.body;
 
-            const { rating, comment } = req.body;
+        // Validate input
+        if (!rating || !comment) {
+            return res.status(400).json({ error: 'Rating and comment are required' });
+        }
 
-            // Validate input
-            if (!rating || !comment) {
-                return res.status(400).json({ error: 'Rating and comment are required' });
-            }
+        if (rating < 1 || rating > 5) {
+            return res.status(400).json({ error: 'Rating must be between 1 and 5' });
+        }
 
-            if (rating < 1 || rating > 5) {
-                return res.status(400).json({ error: 'Rating must be between 1 and 5' });
-            }
+        // Insert comment with user info
+        const insertQuery = 'INSERT INTO comments (user_id, name, rating, comment) VALUES (?, ?, ?, ?)';
+        const [result] = await db.query(insertQuery, [decoded.id, decoded.name, rating, comment]);
 
-            // Insert comment with user info
-            const insertQuery = 'INSERT INTO comments (user_id, name, rating, comment) VALUES (?, ?, ?, ?)';
-            db.query(insertQuery, [decoded.id, decoded.name, rating, comment], (err, result) => {
-                if (err) {
-                    console.error('Error adding comment:', err);
-                    return res.status(500).json({ error: 'Failed to add comment' });
-                }
-
-                res.json({
-                    success: true,
-                    message: 'Comment added successfully',
-                    commentId: result.insertId
-                });
-            });
+        res.json({
+            success: true,
+            message: 'Comment added successfully',
+            commentId: result.insertId
         });
     } catch (error) {
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
         console.error('Error adding comment:', error);
         res.status(500).json({ error: 'Server error' });
     }
@@ -283,7 +266,7 @@ app.post("/api/comments", (req, res) => {
 // ============================================
 
 // Get user's cart items
-app.get("/api/cart", (req, res) => {
+app.get("/api/cart", async (req, res) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
 
@@ -291,28 +274,21 @@ app.get("/api/cart", (req, res) => {
             return res.status(401).json({ error: 'Authentication required' });
         }
 
-        jwt.verify(token, JWT_SECRET, (err, decoded) => {
-            if (err) {
-                return res.status(401).json({ error: 'Invalid token' });
-            }
-
-            const query = 'SELECT * FROM cart_items WHERE user_id = ? ORDER BY created_at DESC';
-            db.query(query, [decoded.id], (err, results) => {
-                if (err) {
-                    console.error('Error fetching cart:', err);
-                    return res.status(500).json({ error: 'Failed to fetch cart' });
-                }
-                res.json(results);
-            });
-        });
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const query = 'SELECT * FROM cart_items WHERE user_id = ? ORDER BY created_at DESC';
+        const [results] = await db.query(query, [decoded.id]);
+        res.json(results);
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Server error' });
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
+        console.error('Error fetching cart:', error);
+        res.status(500).json({ error: 'Failed to fetch cart' });
     }
 });
 
 // Add item to cart
-app.post("/api/cart", (req, res) => {
+app.post("/api/cart", async (req, res) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
 
@@ -320,41 +296,34 @@ app.post("/api/cart", (req, res) => {
             return res.status(401).json({ error: 'Authentication required' });
         }
 
-        jwt.verify(token, JWT_SECRET, (err, decoded) => {
-            if (err) {
-                return res.status(401).json({ error: 'Invalid token' });
-            }
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const { food_id, food_name, food_price, image_path, quantity } = req.body;
 
-            const { food_id, food_name, food_price, image_path, quantity } = req.body;
+        // Validate input
+        if (!food_name || !food_price) {
+            return res.status(400).json({ error: 'Food name and price are required' });
+        }
 
-            // Validate input
-            if (!food_name || !food_price) {
-                return res.status(400).json({ error: 'Food name and price are required' });
-            }
+        // Insert cart item with user name and email from JWT token
+        const insertQuery = 'INSERT INTO cart_items (user_id, user_name, user_email, food_id, food_name, food_price, image_path, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        const [result] = await db.query(insertQuery, [decoded.id, decoded.name, decoded.email, food_id || null, food_name, food_price, image_path, quantity || 1]);
 
-            // Insert cart item with user name and email from JWT token
-            const insertQuery = 'INSERT INTO cart_items (user_id, user_name, user_email, food_id, food_name, food_price, image_path, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-            db.query(insertQuery, [decoded.id, decoded.name, decoded.email, food_id || null, food_name, food_price, image_path, quantity || 1], (err, result) => {
-                if (err) {
-                    console.error('Error adding to cart:', err);
-                    return res.status(500).json({ error: 'Failed to add to cart' });
-                }
-
-                res.json({
-                    success: true,
-                    message: 'Item added to cart',
-                    cartItemId: result.insertId
-                });
-            });
+        res.json({
+            success: true,
+            message: 'Item added to cart',
+            cartItemId: result.insertId
         });
     } catch (error) {
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
         console.error('Error adding to cart:', error);
         res.status(500).json({ error: 'Server error' });
     }
 });
 
 // Remove item from cart
-app.delete("/api/cart/:id", (req, res) => {
+app.delete("/api/cart/:id", async (req, res) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
 
@@ -362,39 +331,32 @@ app.delete("/api/cart/:id", (req, res) => {
             return res.status(401).json({ error: 'Authentication required' });
         }
 
-        jwt.verify(token, JWT_SECRET, (err, decoded) => {
-            if (err) {
-                return res.status(401).json({ error: 'Invalid token' });
-            }
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const cartItemId = req.params.id;
 
-            const cartItemId = req.params.id;
+        // Delete cart item (ensure it belongs to the user)
+        const deleteQuery = 'DELETE FROM cart_items WHERE id = ? AND user_id = ?';
+        const [result] = await db.query(deleteQuery, [cartItemId, decoded.id]);
 
-            // Delete cart item (ensure it belongs to the user)
-            const deleteQuery = 'DELETE FROM cart_items WHERE id = ? AND user_id = ?';
-            db.query(deleteQuery, [cartItemId, decoded.id], (err, result) => {
-                if (err) {
-                    console.error('Error removing from cart:', err);
-                    return res.status(500).json({ error: 'Failed to remove from cart' });
-                }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Cart item not found' });
+        }
 
-                if (result.affectedRows === 0) {
-                    return res.status(404).json({ error: 'Cart item not found' });
-                }
-
-                res.json({
-                    success: true,
-                    message: 'Item removed from cart'
-                });
-            });
+        res.json({
+            success: true,
+            message: 'Item removed from cart'
         });
     } catch (error) {
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
         console.error('Error removing from cart:', error);
         res.status(500).json({ error: 'Server error' });
     }
 });
 
 // Clear all cart items for user
-app.delete("/api/cart", (req, res) => {
+app.delete("/api/cart", async (req, res) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
 
@@ -402,26 +364,19 @@ app.delete("/api/cart", (req, res) => {
             return res.status(401).json({ error: 'Authentication required' });
         }
 
-        jwt.verify(token, JWT_SECRET, (err, decoded) => {
-            if (err) {
-                return res.status(401).json({ error: 'Invalid token' });
-            }
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const deleteQuery = 'DELETE FROM cart_items WHERE user_id = ?';
+        const [result] = await db.query(deleteQuery, [decoded.id]);
 
-            const deleteQuery = 'DELETE FROM cart_items WHERE user_id = ?';
-            db.query(deleteQuery, [decoded.id], (err, result) => {
-                if (err) {
-                    console.error('Error clearing cart:', err);
-                    return res.status(500).json({ error: 'Failed to clear cart' });
-                }
-
-                res.json({
-                    success: true,
-                    message: 'Cart cleared',
-                    itemsRemoved: result.affectedRows
-                });
-            });
+        res.json({
+            success: true,
+            message: 'Cart cleared',
+            itemsRemoved: result.affectedRows
         });
     } catch (error) {
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
         console.error('Error clearing cart:', error);
         res.status(500).json({ error: 'Server error' });
     }

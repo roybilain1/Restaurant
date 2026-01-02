@@ -39,13 +39,28 @@ const Menu = () => {
         const sectionsResponse = await fetch('https://dynamic-energy-production.up.railway.app/api/sections');
         console.log('Sections response:', sectionsResponse);
         
+        if (!sectionsResponse.ok) {
+          throw new Error(`Failed to fetch sections: ${sectionsResponse.status}`);
+        }
+        
         const sectionsData = await sectionsResponse.json();
         console.log('Sections data:', sectionsData);
+        
+        // Check if sectionsData is an array and has items
+        if (!Array.isArray(sectionsData) || sectionsData.length === 0) {
+          console.error('No sections data received');
+          return;
+        }
         
         setSections(sectionsData);
         setActiveSection(sectionsData[0].section_key); // Use section_key instead of key
 
         const foodsResponse = await fetch('https://dynamic-energy-production.up.railway.app/api/foods');
+        
+        if (!foodsResponse.ok) {
+          throw new Error(`Failed to fetch foods: ${foodsResponse.status}`);
+        }
+        
         const foodsData = await foodsResponse.json();
         
         // Organize foods by section_key
@@ -57,6 +72,7 @@ const Menu = () => {
         setFoods(organizedFoods);
       } catch (err) {
         console.error('Detailed error:', err);
+        toast.error('Failed to load menu data. Please try again later.');
       }
     };
     

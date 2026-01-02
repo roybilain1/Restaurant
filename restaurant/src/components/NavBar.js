@@ -21,7 +21,7 @@ const Navbar = () => {
     // Small delay to ensure navigation happens first
     setTimeout(() => {
       const offcanvasElement = document.getElementById('offcanvasNavbar');
-      if (offcanvasElement) {
+      if (offcanvasElement && window.bootstrap && window.bootstrap.Offcanvas) {
         const bsOffcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
         if (bsOffcanvas) {
           bsOffcanvas.hide();
