@@ -120,3 +120,14 @@ Table reservations
 
 CHEZ ROY! showcases a complete full-stack restaurant solution, combining modern frontend design with a secure and scalable backend. The project reflects real-world development practices and serves as a strong portfolio example for web and software development roles.
 
+
+<img width="1789" height="1028" alt="Home1" src="https://github.com/user-attachments/assets/331cea3f-0200-401b-833d-b7ff5b756c17" />
+<img width="1737" height="1017" alt="Home2" src="https://github.com/user-attachments/assets/e8321b55-ed2d-4ad5-96f2-6a97cbb5ea1a" />
+<img width="1790" height="1028" alt="LogIn" src="https://github.com/user-attachments/assets/5da935bf-ce6b-47e4-bedb-aa1c5cc37634" />
+<img width="1790" height="1025" alt="SignUp" src="https://github.com/user-attachments/assets/ee4f73ba-6aad-4ebe-92ec-0d3cd7caa8f3" />
+<img width="1789" height="1029" alt="Menu" src="https://github.com/user-attachments/assets/40fbebb8-4585-448f-b0a1-c145869750b5" />
+<img width="1782" height="1033" alt="Cart" src="https://github.com/user-attachments/assets/0610fbe9-9ef6-4d51-a667-a4d1b2cb0cf8" />
+<img width="1789" height="980" alt="Order Tracking" src="https://github.com/user-attachments/assets/b5e56163-ec8a-42c7-94a7-78b654203cc0" />
+<img width="1791" height="765" alt="AboutUs1" src="https://github.com/user-attachments/assets/f4ae09ad-1d5e-4d70-a094-9187b8516e6d" />
+<img width="1791" height="1027" alt="AboutUs2" src="https://github.com/user-attachments/assets/308a4a12-f911-4ebd-9ef1-fb01227c4072" />
+<img width="1791" height="1030" alt="Contact" src="https://github.com/user-attachments/assets/40c5ede6-1cd5-45f0-809b-dfc595910066" />
