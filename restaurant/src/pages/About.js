@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
+import { toast } from 'react-toastify';
 import '../styles/about.css';
 import aboutImage from '../images/chez-roy-restaurant.png';
 
@@ -40,12 +41,12 @@ const About = () => {
         
         // Validate rating and comment
         if (rating === 0) {
-            alert('Please select a rating');
+            toast.warning('⭐ Please select a rating before submitting');
             return;
         }
         
         if (comment.trim() === '') {
-            alert('Please write a comment');
+            toast.warning('✍️ Please write a comment before submitting');
             return;
         }
         
@@ -73,12 +74,13 @@ const About = () => {
                 
                 // Refresh comments from backend to get the new comment
                 fetchComments();
+                toast.success('✅ Thank you! Your feedback has been submitted successfully');
             } else {
-                alert(data.error || 'Failed to submit comment');
+                toast.error(data.error || 'Failed to submit comment');
             }
         } catch (error) {
             console.error('Error submitting comment:', error);
-            alert('Failed to submit comment. Please try again.');
+            toast.error('❌ Failed to submit comment. Please try again.');
         } finally {
             setLoading(false);
         }
