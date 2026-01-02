@@ -67,7 +67,7 @@ const OrderTracking = () => {
                     </div>
                     <h1>🎉 Order Complete!</h1>
                     <p className="success-message">
-                        Your order is ready! Thank you for choosing Chez Roy.
+                        Your order is ready! Thank you for choosing CHEZ ROY!
                     </p>
                     <div className="order-summary">
                         <h3>Order #{orderId}</h3>

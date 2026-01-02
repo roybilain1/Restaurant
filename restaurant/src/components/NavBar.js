@@ -49,7 +49,7 @@ const Navbar = () => {
       <div className="navbar navbar-expand-lg ">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand me-auto">
-            Chez Roy
+            CHEZ ROY!
           </Link>
           <div
             className="offcanvas offcanvas-end"
@@ -59,7 +59,7 @@ const Navbar = () => {
           >
             <div className="offcanvas-header">
               <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
-                Chez Roy
+                CHEZ ROY!
               </h5>
               <button
                 type="button"

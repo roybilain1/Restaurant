@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="container-fluid py-4 d-flex flex-column flex-lg-row align-items-center justify-content-between">
         <div className="d-flex align-items-center mb-3 mb-lg-0">
           <Link to="/" className="navbar-brand me-auto">
-            Chez Roy
+            CHEZ ROY!
           </Link>
         </div>
         <div className="d-flex align-items-center mb-3 mb-lg-0">
@@ -27,7 +27,7 @@ const Footer = () => {
           </span>
         </div>
         <span className="navbar-text ms-lg-3 text-muted">
-          &copy; {new Date().getFullYear()} Chez Roy. All rights reserved.
+          &copy; {new Date().getFullYear()} CHEZ ROY! All rights reserved.
         </span>
       </div>
     </footer>

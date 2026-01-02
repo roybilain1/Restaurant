@@ -119,9 +119,9 @@ const Login = () => {
                 <div className="row login-wrapper shadow-lg">
                     {/* Left side - Image */}
                     <div className="col-lg-6 p-0 login-image-section">
-                        <img src={restaurantImage} alt="Chez Roy Restaurant" className="img-fluid" />
+                        <img src={restaurantImage} alt="CHEZ ROY! Restaurant" className="img-fluid" />
                         <div className="login-image-overlay">
-                            <h2>Welcome to Chez Roy</h2>
+                            <h2>Welcome to CHEZ ROY!</h2>
                             <p>Experience authentic Lebanese cuisine</p>
                         </div>
                     </div>
