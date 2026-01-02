@@ -153,6 +153,7 @@ const About = () => {
                         type="submit" 
                         className="submit-btn" 
                         disabled={loading || !isAuthenticated}
+                        onClick={handleSubmit}
                     >
                         {loading ? 'Submitting...' : (isAuthenticated ? 'Submit' : 'Login to Comment')}
                     </button>
