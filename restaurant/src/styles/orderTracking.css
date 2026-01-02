@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    background: linear-gradient(135deg, #d97706 0%, #b91c1c 100%);
+    background: linear-gradient(135deg, #a0daf1 0%, #009970 100%);
 }
 
 .order-tracking-container {
@@ -112,7 +112,7 @@
 }
 
 .progress-step.active .step-icon {
-    background: linear-gradient(135deg, #d97706 0%, #b91c1c 100%);
+    background: linear-gradient(135deg, #009970 0%, #007f5c 100%);
     color: white;
     animation: pulse 1.5s infinite;
     transform: scale(1.1);
@@ -126,10 +126,10 @@
 
 @keyframes pulse {
     0%, 100% {
-        box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7);
+        box-shadow: 0 0 0 0 rgba(0, 153, 112, 0.7);
     }
     50% {
-        box-shadow: 0 0 0 15px rgba(217, 119, 6, 0);
+        box-shadow: 0 0 0 15px rgba(0, 153, 112, 0);
     }
 }
 
@@ -289,13 +289,13 @@
 }
 
 .order-again-btn {
-    background: linear-gradient(135deg, #d97706 0%, #b91c1c 100%);
+    background: linear-gradient(135deg, #009970 0%, #007f5c 100%);
     color: white;
 }
 
 .order-again-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(217, 119, 6, 0.4);
+    box-shadow: 0 8px 20px rgba(0, 153, 112, 0.4);
 }
 
 .go-home-btn {
