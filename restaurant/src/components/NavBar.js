@@ -16,18 +16,23 @@ const Navbar = () => {
   const { cartItems } = useContext(CartContext);
   const { user, logout, isAuthenticated } = useContext(UserContext);
 
-  // Function to close the offcanvas menu after a short delay to allow navigation
+  // Function to close the offcanvas menu
   const handleNavClick = () => {
-    // Small delay to ensure navigation happens first
-    setTimeout(() => {
-      const offcanvasElement = document.getElementById('offcanvasNavbar');
-      if (offcanvasElement && window.bootstrap && window.bootstrap.Offcanvas) {
-        const bsOffcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
-        if (bsOffcanvas) {
-          bsOffcanvas.hide();
-        }
+    const offcanvasElement = document.getElementById('offcanvasNavbar');
+    if (offcanvasElement) {
+      // Try to get existing instance
+      let bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(offcanvasElement);
+      
+      // If no instance exists, create one
+      if (!bsOffcanvas && window.bootstrap?.Offcanvas) {
+        bsOffcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
       }
-    }, 150);
+      
+      // Close the menu
+      if (bsOffcanvas) {
+        bsOffcanvas.hide();
+      }
+    }
   };
 
   return (
