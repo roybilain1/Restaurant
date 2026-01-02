@@ -8,6 +8,7 @@ import Cart from './pages/Cart';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './components/login';
+import OrderTracking from './pages/OrderTracking';
 import { CartProvider } from "./context/CartContext";
 import { UserProvider } from "./context/UserContext";
 
@@ -29,6 +30,7 @@ function App() {
               <Route path="/About" element={<About />} />
               <Route path="/Contact" element={<Contact />} />
               <Route path="/Login" element={<Login />} />
+              <Route path="/order-tracking" element={<OrderTracking />} />
             </Routes>
           </div>
           <Footer />

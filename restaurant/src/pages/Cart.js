@@ -1,9 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
+import { UserContext } from "../context/UserContext";
+import { toast } from 'react-toastify';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Cart = () => {
   const { cartItems, removeFromCart, clearCart, loading } = useContext(CartContext);
+  const { isAuthenticated } = useContext(UserContext);
+  const navigate = useNavigate();
+  const [isOrdering, setIsOrdering] = useState(false);
 
   // Helper function to get correct image path
   const getImageSrc = (item) => {
@@ -43,6 +49,46 @@ const Cart = () => {
   
   const discount = total > 60 ? total * 0.2 : 0;
   const finalTotal = total - discount;
+
+  const handleOrder = async () => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      toast.warning('Please login to place an order');
+      navigate('/login');
+      return;
+    }
+
+    // Check if cart is empty
+    if (cartItems.length === 0) {
+      toast.error('Your cart is empty!');
+      return;
+    }
+
+    setIsOrdering(true);
+
+    try {
+      // Generate order ID
+      const orderId = `ORD-${Date.now()}`;
+
+      // Clear the cart
+      await clearCart();
+
+      // Navigate to order tracking page with order details
+      navigate('/order-tracking', {
+        state: {
+          orderId: orderId,
+          items: cartItems,
+          total: finalTotal
+        }
+      });
+
+      toast.success('🎉 Order placed successfully!');
+    } catch (error) {
+      console.error('Error placing order:', error);
+      toast.error('Failed to place order. Please try again.');
+      setIsOrdering(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -118,12 +164,22 @@ const Cart = () => {
               </>
             )}
 
-            <button
-              onClick={clearCart}
-              className="btn btn-dark mt-3"
-            >
-              Clear Cart
-            </button>
+            <div className="mt-3 d-flex gap-2 justify-content-center flex-wrap">
+              <button
+                onClick={handleOrder}
+                className="btn btn-success btn-lg"
+                disabled={isOrdering}
+                style={{ minWidth: '200px' }}
+              >
+                {isOrdering ? '🔄 Processing...' : '🍽️ Order Now'}
+              </button>
+              <button
+                onClick={clearCart}
+                className="btn btn-outline-dark btn-lg"
+              >
+                🗑️ Clear Cart
+              </button>
+            </div>
           </div>
         </>
       )}
