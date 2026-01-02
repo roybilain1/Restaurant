@@ -32,22 +32,14 @@ const About = () => {
     }, [submitted]);
 
     const handleSubmit = async () => {
-        console.log('Button clicked!');
-        console.log('isAuthenticated:', isAuthenticated);
-        console.log('user:', user);
-        
         // Check if user is logged in
         if (!isAuthenticated) {
-            console.log('User not authenticated, redirecting to login...');
             navigate('/login');
             return;
         }
         
-        console.log('User is authenticated, proceeding with validation...');
-        
         // Validate rating and comment
         if (rating === 0) {
-            console.log('Invalid rating:', rating);
             alert('Please select a rating');
             return;
         }
