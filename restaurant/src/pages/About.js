@@ -39,7 +39,6 @@ const About = () => {
         // Check if user is logged in
         if (!isAuthenticated) {
             console.log('User not authenticated, redirecting to login...');
-            alert('Please login to submit a comment');
             navigate('/login');
             return;
         }
@@ -48,6 +47,7 @@ const About = () => {
         
         // Validate rating and comment
         if (rating === 0) {
+            console.log('Invalid rating:', rating);
             alert('Please select a rating');
             return;
         }
