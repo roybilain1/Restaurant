@@ -41,40 +41,49 @@ const About = () => {
             return;
         }
         
-        if (rating > 0 && comment.trim() !== '') {
-            setLoading(true);
+        // Validate rating and comment
+        if (rating === 0) {
+            alert('Please select a rating');
+            return;
+        }
+        
+        if (comment.trim() === '') {
+            alert('Please write a comment');
+            return;
+        }
+        
+        setLoading(true);
+        
+        try {
+            // Send comment to backend with authentication token
+            const token = getToken();
+            const response = await fetch('https://dynamic-energy-production.up.railway.app/api/comments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ rating, comment })
+            });
             
-            try {
-                // Send comment to backend with authentication token
-                const token = getToken();
-                const response = await fetch('https://dynamic-energy-production.up.railway.app/api/comments', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ rating, comment })
-                });
+            const data = await response.json();
+            
+            if (response.ok) {
+                // Don't add to local state, just refresh from backend
+                setSubmitted(true);
+                setComment('');
+                setRating(0);
                 
-                const data = await response.json();
-                
-                if (response.ok) {
-                    // Don't add to local state, just refresh from backend
-                    setSubmitted(true);
-                    setComment('');
-                    setRating(0);
-                    
-                    // Refresh comments from backend to get the new comment
-                    fetchComments();
-                } else {
-                    alert(data.error || 'Failed to submit comment');
-                }
-            } catch (error) {
-                console.error('Error submitting comment:', error);
-                alert('Failed to submit comment. Please try again.');
-            } finally {
-                setLoading(false);
+                // Refresh comments from backend to get the new comment
+                fetchComments();
+            } else {
+                alert(data.error || 'Failed to submit comment');
             }
+        } catch (error) {
+            console.error('Error submitting comment:', error);
+            alert('Failed to submit comment. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
     
@@ -142,7 +151,7 @@ const About = () => {
                     {/* everything below is the comment box */}
                     <textarea
                         className="comment-box"
-                        placeholder="Leave your comment here..."
+                        placeholder={isAuthenticated ? "Leave your comment here..." : "Please login to leave a comment"}
                         value={comment}
                         onChange={e => setComment(e.target.value)}
                         rows={4}
@@ -152,8 +161,7 @@ const About = () => {
                     <button 
                         type="submit" 
                         className="submit-btn" 
-                        disabled={loading || !isAuthenticated}
-                        onClick={handleSubmit}
+                        disabled={loading}
                     >
                         {loading ? 'Submitting...' : (isAuthenticated ? 'Submit' : 'Login to Comment')}
                     </button>
