@@ -16,6 +16,25 @@ const Navbar = () => {
   const { cartItems } = useContext(CartContext);
   const { user, logout, isAuthenticated } = useContext(UserContext);
 
+  // Function to close the offcanvas menu
+  const handleNavClick = () => {
+    const offcanvasElement = document.getElementById('offcanvasNavbar');
+    if (offcanvasElement) {
+      // Try to get existing instance
+      let bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(offcanvasElement);
+      
+      // If no instance exists, create one
+      if (!bsOffcanvas && window.bootstrap?.Offcanvas) {
+        bsOffcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
+      }
+      
+      // Close the menu
+      if (bsOffcanvas) {
+        bsOffcanvas.hide();
+      }
+    }
+  };
+
   return (
     <nav>
       <div className="navbar navbar-expand-lg ">
