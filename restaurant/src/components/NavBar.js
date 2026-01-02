@@ -16,25 +16,6 @@ const Navbar = () => {
   const { cartItems } = useContext(CartContext);
   const { user, logout, isAuthenticated } = useContext(UserContext);
 
-  // Function to close the offcanvas menu
-  const handleNavClick = () => {
-    const offcanvasElement = document.getElementById('offcanvasNavbar');
-    if (offcanvasElement) {
-      // Try to get existing instance
-      let bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(offcanvasElement);
-      
-      // If no instance exists, create one
-      if (!bsOffcanvas && window.bootstrap?.Offcanvas) {
-        bsOffcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
-      }
-      
-      // Close the menu
-      if (bsOffcanvas) {
-        bsOffcanvas.hide();
-      }
-    }
-  };
-
   return (
     <nav>
       <div className="navbar navbar-expand-lg ">
@@ -65,7 +46,7 @@ const Navbar = () => {
                   <Link
                     to="/"
                     className={`nav-link mx-lg-2${location.pathname === '/' ? ' active' : ''}`}
-                    onClick={handleNavClick}
+                    data-bs-dismiss="offcanvas"
                   >
                     Home
                   </Link>
@@ -74,7 +55,7 @@ const Navbar = () => {
                   <Link
                     to="/Menu"
                     className={`nav-link mx-lg-2${location.pathname === '/Menu' ? ' active' : ''}`}
-                    onClick={handleNavClick}
+                    data-bs-dismiss="offcanvas"
                   >
                     Menu
                   </Link>
@@ -83,7 +64,7 @@ const Navbar = () => {
                   <Link
                     to="/Cart"
                     className={`nav-link mx-lg-2${location.pathname === '/Cart' ? ' active' : ''}`}
-                    onClick={handleNavClick}
+                    data-bs-dismiss="offcanvas"
                   >
                     🛒 Cart ({cartItems.length})
                   </Link>
@@ -92,7 +73,7 @@ const Navbar = () => {
                   <Link
                     to="/About"
                     className={`nav-link mx-lg-2${location.pathname === '/About' ? ' active' : ''}`}
-                    onClick={handleNavClick}
+                    data-bs-dismiss="offcanvas"
                   >
                     About us
                   </Link>
@@ -101,7 +82,7 @@ const Navbar = () => {
                   <Link
                     to="/Contact"
                     className={`nav-link mx-lg-2${location.pathname === '/Contact' ? ' active' : ''}`}
-                    onClick={handleNavClick}
+                    data-bs-dismiss="offcanvas"
                   >
                     Contact us
                   </Link>
