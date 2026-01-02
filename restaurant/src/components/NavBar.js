@@ -18,21 +18,27 @@ const Navbar = () => {
 
   // Function to close the offcanvas menu
   const handleNavClick = () => {
-    // Use setTimeout to allow React Router navigation to happen first
+    // Close the offcanvas by removing the show class and backdrop
     setTimeout(() => {
       const offcanvasElement = document.getElementById('offcanvasNavbar');
+      const backdrop = document.querySelector('.offcanvas-backdrop');
+      
       if (offcanvasElement) {
-        // Try to get existing instance
-        let bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(offcanvasElement);
-        
-        // If no instance exists, create one
-        if (!bsOffcanvas && window.bootstrap?.Offcanvas) {
-          bsOffcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
-        }
-        
-        // Close the menu
+        // Method 1: Try Bootstrap's native method
+        const bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(offcanvasElement);
         if (bsOffcanvas) {
           bsOffcanvas.hide();
+        } else {
+          // Method 2: Manually remove classes if Bootstrap instance doesn't exist
+          offcanvasElement.classList.remove('show');
+          document.body.classList.remove('offcanvas-open');
+          document.body.style.overflow = '';
+          document.body.style.paddingRight = '';
+          
+          // Remove backdrop
+          if (backdrop) {
+            backdrop.remove();
+          }
         }
       }
     }, 100);
