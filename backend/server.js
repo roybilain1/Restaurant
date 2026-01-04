@@ -44,9 +44,6 @@ pool.getConnection((err, connection) => {
     connection.release();
 });
 
-// ============================================
-// MENU ENDPOINTS
-// ============================================
 
 // GET all sections for menu
 app.get("/api/sections", async (req, res) => {
@@ -83,9 +80,6 @@ app.get("/restaurant", async (req, res) => {
     }
 });
 
-// ============================================
-// AUTHENTICATION ENDPOINTS
-// ============================================
 
 // Sign Up - Register new user
 app.post("/api/auth/signup", async (req, res) => {
@@ -206,9 +200,6 @@ app.get("/api/auth/verify", (req, res) => {
     }
 });
 
-// ============================================
-// COMMENTS ENDPOINTS (About Page)
-// ============================================
 
 // Get all comments
 app.get("/api/comments", async (req, res) => {
@@ -261,9 +252,8 @@ app.post("/api/comments", async (req, res) => {
     }
 });
 
-// ============================================
-// CART ENDPOINTS
-// ============================================
+
+
 
 // Get user's cart items
 app.get("/api/cart", async (req, res) => {
@@ -382,10 +372,8 @@ app.delete("/api/cart", async (req, res) => {
     }
 });
 
-// ============================================
-// TEST ENDPOINT
-// ============================================
 
+// TEST ENDPOINT
 app.get("/", (req, res) => {
     res.json({ 
         message: "🍽️ Chez Roy Restaurant Backend Server is running!",
@@ -413,10 +401,8 @@ app.get("/", (req, res) => {
     });
 });
 
-// ============================================
-// START SERVER
-// ============================================
 
+// START SERVER
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`🚀 Chez Roy Backend Server running on http://localhost:${PORT}`);
